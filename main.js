@@ -361,22 +361,35 @@
 
     try {
       // ─── Submit via Vercel serverless → Google Sheets ───
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          timestamp: data.timestamp,
-          nome:      data.nome,
-          email:     data.email,
-          telefono:  data.telefono,
-          localita:  data.localita,
-          prodotto:  data.prodotto,
-          messaggio: data.messaggio,
-          lingua:    data.lingua
-        })
-      });
-      const result = await response.json();
-      console.log('Sheet response:', result);
+      let sheetOk = false;
+
+      try {
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            timestamp: data.timestamp,
+            nome:      data.nome,
+            email:     data.email,
+            telefono:  data.telefono,
+            localita:  data.localita,
+            prodotto:  data.prodotto,
+            messaggio: data.messaggio,
+            lingua:    data.lingua
+          })
+        });
+        const result = await response.json();
+        console.log('✅ Sheet response:', result);
+        sheetOk = true;
+      } catch (apiErr) {
+        console.warn('⚠️ /api/submit failed, trying direct Apps Script:', apiErr.message);
+        // Fallback: direct to Apps Script via form POST
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxEVc674f5Tph61Cw5cmh4yfGfvYktJTy_9DWrDp5CVeodjrEJWsaqb4WTUnH63WGU/exec';
+        const fd = new URLSearchParams();
+        Object.entries(data).forEach(([k,v]) => fd.append(k, v));
+        await fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: fd });
+        console.log('📋 Fallback Apps Script fired');
+      }
 
       // Save locally too
       saveLeadLocally(data);
@@ -397,7 +410,7 @@
       }, 1500);
 
     } catch (err) {
-      // Even if fetch fails (CORS), local save is done
+      console.error('❌ Form submit error:', err.message);
       saveLeadLocally(data);
       if (successMsg) successMsg.style.display = 'block';
       form.reset();
