@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chi Siamo – TF ENERGY SRL</title>
+<meta name="description" content="TF ENERGY SRL: il tuo partner per l'energia rinnovabile in Veneto. Scopri la nostra storia, i nostri valori e il nostro team."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div id="launch-overlay">
+  <div class="launch-inner">
+    <div class="launch-logo-wrap"><img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL Logo" class="launch-logo"/></div>
+    <div class="launch-brand">TF ENERGY SRL</div>
+    <div class="launch-tagline" id="launch-tagline">Energia. Innovazione. Futuro.</div>
+    <div class="launch-progress-bar"><div class="launch-progress-fill" id="launch-fill"></div></div>
+    <div class="launch-percent" id="launch-percent">0%</div>
+    <div class="launch-particles" id="launch-particles"></div>
+  </div>
+</div>
+
+<header id="navbar">
+  <nav class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="nav-logo-img"/>
+      <span class="nav-logo-text">TF ENERGY SRL</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html" class="nav-link" data-it="Home" data-en="Home">Home</a>
+      <a href="about.html" class="nav-link active" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+      <div class="nav-dropdown">
+        <a class="nav-link dropdown-trigger" data-it="Prodotti" data-en="Products">Prodotti <span class="caret">▾</span></a>
+        <div class="dropdown-menu">
+          <a href="products.html#fotovoltaico" data-it="FTV + Accumulatore" data-en="Solar + Storage">FTV + Accumulatore</a>
+          <a href="products.html#colonnina" data-it="Colonnina di Ricarica" data-en="EV Charger">Colonnina di Ricarica</a>
+          <a href="products.html#caldaie" data-it="Caldaie Murali" data-en="Wall Boilers">Caldaie Murali</a>
+          <a href="products.html#pompa" data-it="Pompa di Calore ACS" data-en="Heat Pump ACS">Pompa di Calore ACS</a>
+          <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+          <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="Air Conditioning">Climatizzatore</a>
+        </div>
+      </div>
+      <a href="projects.html" class="nav-link" data-it="Progetti" data-en="Projects">Progetti</a>
+      <a href="contact.html" class="nav-link" data-it="Contatti" data-en="Contact">Contatti</a>
+    </div>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="lang-toggle"><span class="lang-it active">IT</span><span class="lang-sep">|</span><span class="lang-en">EN</span></button>
+      <a href="contact.html" class="btn-cta-nav" data-it="Preventivo" data-en="Get Quote">Preventivo</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero" style="background-image:linear-gradient(135deg,rgba(28,33,80,0.82),rgba(59,79,196,0.72)),url('assets/about-bg.png');background-size:cover;background-position:center;">
+  <div class="container page-hero-content">
+    <div class="hero-badge" data-it="🏆 Dal 2014 al fianco dei nostri clienti" data-en="🏆 By our customers' side since 2014">🏆 Dal 2014 al fianco dei nostri clienti</div>
+    <h1 style="color:#fff" data-it="Chi è TF ENERGY SRL" data-en="Who is TF ENERGY SRL">Chi è TF ENERGY SRL</h1>
+    <p style="color:#e6e9ff" data-it="Esperti di energia rinnovabile in Veneto: fotovoltaico, accumulo, climatizzazione e mobilità elettrica per privati e aziende." data-en="Renewable energy experts in Veneto: solar, storage, climate control and electric mobility for homes and businesses.">Esperti di energia rinnovabile in Veneto: fotovoltaico, accumulo, climatizzazione e mobilità elettrica per privati e aziende.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
+      <div class="reveal-left">
+        <div class="section-eyebrow" data-it="LA NOSTRA STORIA" data-en="OUR STORY">LA NOSTRA STORIA</div>
+        <h2 class="section-title" data-it="Energia pulita, <span class='accent'>passione vera</span>" data-en="Clean energy, <span class='accent'>real passion</span>">Energia pulita, <span class="accent">passione vera</span></h2>
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:20px" data-it="TF ENERGY SRL nasce in provincia di Padova con una missione chiara: rendere l'energia rinnovabile accessibile, affidabile e su misura per ogni cliente. Dalla prima installazione fotovoltaica abbiamo costruito un'azienda fondata su trasparenza, qualità dei materiali e assistenza reale." data-en="TF ENERGY SRL was founded in the Padua area with a clear mission: make renewable energy accessible, reliable and tailored to every customer. From our first solar installation, we've built a company founded on transparency, quality materials and real support.">TF ENERGY SRL nasce in provincia di Padova con una missione chiara: rendere l'energia rinnovabile accessibile, affidabile e su misura per ogni cliente. Dalla prima installazione fotovoltaica abbiamo costruito un'azienda fondata su trasparenza, qualità dei materiali e assistenza reale.</p>
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:32px" data-it="Oggi siamo Partner Elite Lamborghini Caloreclima e collaboriamo con i migliori marchi del settore — OmnisPower, AlphaESS, V-TAC, Deye — per offrire impianti affidabili, garantiti fino a 30 anni." data-en="Today we are Elite Partners with Lamborghini Caloreclima and work with the best brands in the industry — OmnisPower, AlphaESS, V-TAC, Deye — to deliver reliable systems, guaranteed up to 30 years.">Oggi siamo Partner Elite Lamborghini Caloreclima e collaboriamo con i migliori marchi del settore — OmnisPower, AlphaESS, V-TAC, Deye — per offrire impianti affidabili, garantiti fino a 30 anni.</p>
+        <div style="display:flex;gap:32px;flex-wrap:wrap">
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white)" data-count="500">0</div><div style="font-size:.8rem;color:var(--text-secondary)" data-it="Installazioni" data-en="Installations">Installazioni</div></div>
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white)" data-count="12" data-suffix="+">0</div><div style="font-size:.8rem;color:var(--text-secondary)" data-it="Anni Esperienza" data-en="Years Experience">Anni Esperienza</div></div>
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--white)" data-count="30" data-suffix=" anni">0</div><div style="font-size:.8rem;color:var(--text-secondary)" data-it="Garanzia" data-en="Warranty">Garanzia</div></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/3-e1761129758546.png" alt="Impianto TF ENERGY SRL" style="border-radius:var(--radius-xl);box-shadow:var(--shadow-card);width:100%"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section why-section">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="I NOSTRI VALORI" data-en="OUR VALUES">I NOSTRI VALORI</div>
+      <h2 class="section-title" data-it="Cosa ci <span class='accent'>guida</span>" data-en="What <span class='accent'>guides</span> us">Cosa ci <span class="accent">guida</span></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal-up" style="animation-delay:.1s">
+        <div class="why-icon-wrap"><i data-lucide="eye" class="why-icon"></i></div>
+        <h3 data-it="Trasparenza" data-en="Transparency">Trasparenza</h3>
+        <p data-it="Preventivi chiari, nessun costo nascosto. Sai sempre esattamente cosa stai pagando e perché." data-en="Clear quotes, no hidden costs. You always know exactly what you're paying for and why.">Preventivi chiari, nessun costo nascosto. Sai sempre esattamente cosa stai pagando e perché.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:.2s">
+        <div class="why-icon-wrap"><i data-lucide="gem" class="why-icon"></i></div>
+        <h3 data-it="Qualità" data-en="Quality">Qualità</h3>
+        <p data-it="Solo marchi leader: OmnisPower, AlphaESS, V-TAC, Deye, Lamborghini Caloreclima." data-en="Only leading brands: OmnisPower, AlphaESS, V-TAC, Deye, Lamborghini Caloreclima.">Solo marchi leader: OmnisPower, AlphaESS, V-TAC, Deye, Lamborghini Caloreclima.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:.3s">
+        <div class="why-icon-wrap"><i data-lucide="users" class="why-icon"></i></div>
+        <h3 data-it="Persone Vere" data-en="Real People">Persone Vere</h3>
+        <p data-it="Un team di tecnici qualificati che ti segue dal sopralluogo fino all'assistenza post-vendita." data-en="A team of qualified technicians who follow you from the site survey to after-sales support.">Un team di tecnici qualificati che ti segue dal sopralluogo fino all'assistenza post-vendita.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:.4s">
+        <div class="why-icon-wrap"><i data-lucide="leaf" class="why-icon"></i></div>
+        <h3 data-it="Sostenibilità" data-en="Sustainability">Sostenibilità</h3>
+        <p data-it="Crediamo in un futuro a basse emissioni: ogni impianto installato è un passo concreto." data-en="We believe in a low-emission future: every system installed is a concrete step forward.">Crediamo in un futuro a basse emissioni: ogni impianto installato è un passo concreto.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:.5s">
+        <div class="why-icon-wrap"><i data-lucide="clock" class="why-icon"></i></div>
+        <h3 data-it="Puntualità" data-en="Punctuality">Puntualità</h3>
+        <p data-it="Rispettiamo le tempistiche concordate, dal preventivo all'allaccio finale alla rete." data-en="We respect agreed timelines, from quote to final grid connection.">Rispettiamo le tempistiche concordate, dal preventivo all'allaccio finale alla rete.</p>
+      </div>
+      <div class="why-card why-card-highlight reveal-up" style="animation-delay:.6s">
+        <div class="why-icon-wrap"><i data-lucide="heart-handshake" class="why-icon"></i></div>
+        <h3 data-it="Assistenza 24/7" data-en="24/7 Support">Assistenza 24/7</h3>
+        <p data-it="Il tuo impianto è importante per noi anche dopo l'installazione. Sempre raggiungibili." data-en="Your system matters to us even after installation. Always reachable.">Il tuo impianto è importante per noi anche dopo l'installazione. Sempre raggiungibili.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER BRANDS -->
+<section class="section dealers-section">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="I NOSTRI MARCHI PARTNER" data-en="OUR PARTNER BRANDS">I NOSTRI MARCHI PARTNER</div>
+      <h2 class="section-title" data-it="Lavoriamo con i <span class='accent'>migliori</span>" data-en="We work with the <span class='accent'>best</span>">Lavoriamo con i <span class="accent">migliori</span></h2>
+    </div>
+    <div class="dealers-logos reveal-up">
+      <div class="dealer-logo-item"><img src="https://tfenergy.it/wp-content/uploads/2020/01/OMNISPOWER-1-e1696943677221.png" alt="OmnisPower"/><span>OmnisPower</span></div>
+      <div class="dealer-logo-item"><img src="https://tfenergy.it/wp-content/uploads/2020/01/Progetto-senza-titolo-1.png" alt="Alphaess"/><span>AlphaESS</span></div>
+      <div class="dealer-logo-item"><img src="https://tfenergy.it/wp-content/uploads/2020/01/V-TAC-e1695638323645.png" alt="V-TAC"/><span>V-TAC</span></div>
+      <div class="dealer-logo-item"><img src="https://tfenergy.it/wp-content/uploads/2020/01/Progetto-senza-titolo-2.png" alt="Lamborghini Caloreclima"/><span>Lamborghini</span></div>
+      <div class="dealer-logo-item"><img src="https://tfenergy.it/wp-content/uploads/2020/01/DEYE-e1695637867577.png" alt="Deye"/><span>Deye</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta-box reveal-up">
+      <div class="cta-glow"></div>
+      <div class="cta-content">
+        <h2 data-it="Vuoi conoscerci <span class='accent'>di persona</span>?" data-en="Want to meet us <span class='accent'>in person</span>?">Vuoi conoscerci <span class="accent">di persona</span>?</h2>
+        <p data-it="Vieni a trovarci in una delle nostre sedi o contattaci per un sopralluogo gratuito." data-en="Visit us at one of our locations or contact us for a free site survey.">Vieni a trovarci in una delle nostre sedi o contattaci per un sopralluogo gratuito.</p>
+        <div class="cta-buttons">
+          <a href="contact.html" class="btn-primary-lg" data-it="Contattaci" data-en="Contact Us">Contattaci</a>
+          <a href="https://wa.me/393792620610" target="_blank" class="btn-whatsapp-lg">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-it="Scrivici su WhatsApp" data-en="Chat on WhatsApp">Scrivici su WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="footer-logo"/>
+        <p data-it="Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale." data-en="Innovative energy solutions for homes and businesses. Certified quality, professional installation.">Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/393792620610" target="_blank" class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          <a href="mailto:info@tfenergy.it" class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Navigazione" data-en="Navigation">Navigazione</h4>
+        <a href="index.html" data-it="Home" data-en="Home">Home</a>
+        <a href="about.html" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+        <a href="products.html" data-it="Prodotti" data-en="Products">Prodotti</a>
+        <a href="projects.html" data-it="Progetti" data-en="Projects">Progetti</a>
+        <a href="contact.html" data-it="Contatti" data-en="Contacts">Contatti</a>
+        <a href="admin.html" data-it="Admin" data-en="Admin">Admin</a>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Prodotti" data-en="Products">Prodotti</h4>
+        <a href="products.html#fotovoltaico" data-it="FTV + Accumulo" data-en="Solar + Storage">FTV + Accumulo</a>
+        <a href="products.html#colonnina" data-it="Colonnina EV" data-en="EV Charger">Colonnina EV</a>
+        <a href="products.html#caldaie" data-it="Caldaie" data-en="Boilers">Caldaie</a>
+        <a href="products.html#pompa" data-it="Pompa di Calore" data-en="Heat Pump">Pompa di Calore</a>
+        <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+        <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="A/C">Climatizzatore</a>
+      </div>
+      <div class="footer-contact-col">
+        <h4 data-it="Contatti" data-en="Contact">Contatti</h4>
+        <a href="tel:+393792620610"><strong>+39 379 262 0610</strong></a>
+        <a href="tel:+3904291960549">+39 0429 196 0549</a>
+        <a href="mailto:info@tfenergy.it">info@tfenergy.it</a>
+        <div class="footer-addresses">
+          <p><strong data-it="Sede Legale:" data-en="Legal HQ:">Sede Legale:</strong><br/>P.zza Aldo Moro 44-45,<br/>35040 Casale di Scodosia (PD)</p>
+          <p><strong data-it="Sede Logistica:" data-en="Logistics:">Sede Logistica:</strong><br/>Via Principe Umberto 51/A,<br/>35042 Este (PD)</p>
+          <p><strong data-it="Magazzino:" data-en="Warehouse:">Magazzino:</strong><br/>Via Martinelle 150,<br/>35040 Casale di Scodosia (PD)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>© 2026 TF ENERGY SRL – P.I. 05219770285</span>
+      <a href="https://www.iubenda.com/privacy-policy/19641559" target="_blank" data-it="Privacy Policy" data-en="Privacy Policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/393792620610" target="_blank" class="whatsapp-float">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="main.js"></script>
+</body>
+</html>

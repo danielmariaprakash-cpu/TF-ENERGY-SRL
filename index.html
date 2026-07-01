@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TF ENERGY SRL – Fotovoltaico & Smart Home</title>
+<meta name="description" content="TF ENERGY SRL – Impianti fotovoltaici, accumulo energia, pompe di calore, colonnine di ricarica e soluzioni smart home. Partner Elite Lamborghini Caloreclima."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     LAUNCH ANIMATION OVERLAY
+══════════════════════════════════ -->
+<div id="launch-overlay">
+  <video class="launch-video-bg" id="launch-video" src="assets/launch.mp4" autoplay muted loop playsinline></video>
+  <div class="launch-inner">
+    <div class="launch-logo-wrap">
+      <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL Logo" class="launch-logo"/>
+    </div>
+    <div class="launch-brand">TF ENERGY SRL</div>
+    <div class="launch-tagline" id="launch-tagline">Energia. Innovazione. Futuro.</div>
+    <div class="launch-progress-bar"><div class="launch-progress-fill" id="launch-fill"></div></div>
+    <div class="launch-percent" id="launch-percent">0%</div>
+    <div class="launch-particles" id="launch-particles"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     NAVIGATION
+══════════════════════════════════ -->
+<header id="navbar">
+  <nav class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="nav-logo-img"/>
+      <span class="nav-logo-text">TF ENERGY SRL</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html" class="nav-link active" data-it="Home" data-en="Home">Home</a>
+      <a href="about.html" class="nav-link" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+      <div class="nav-dropdown">
+        <a class="nav-link dropdown-trigger" data-it="Prodotti" data-en="Products">Prodotti <span class="caret">▾</span></a>
+        <div class="dropdown-menu">
+          <a href="products.html#fotovoltaico" data-it="FTV + Accumulatore" data-en="Solar + Storage">FTV + Accumulatore</a>
+          <a href="products.html#colonnina" data-it="Colonnina di Ricarica" data-en="EV Charger">Colonnina di Ricarica</a>
+          <a href="products.html#caldaie" data-it="Caldaie Murali" data-en="Wall Boilers">Caldaie Murali</a>
+          <a href="products.html#pompa" data-it="Pompa di Calore ACS" data-en="Heat Pump ACS">Pompa di Calore ACS</a>
+          <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+          <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="Air Conditioning">Climatizzatore</a>
+        </div>
+      </div>
+      <a href="projects.html" class="nav-link" data-it="Progetti" data-en="Projects">Progetti</a>
+      <a href="contact.html" class="nav-link" data-it="Contatti" data-en="Contact">Contatti</a>
+    </div>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="lang-toggle" title="Switch language">
+        <span class="lang-it active">IT</span><span class="lang-sep">|</span><span class="lang-en">EN</span>
+      </button>
+      <a href="contact.html" class="btn-cta-nav" data-it="Preventivo" data-en="Get Quote">Preventivo</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════
+     HERO SECTION
+══════════════════════════════════ -->
+<section class="hero" id="hero">
+  <video class="hero-video-bg" id="hero-video" src="assets/launch.mp4" autoplay loop muted playsinline></video>
+  <div class="hero-video-overlay"></div>
+  <button class="hero-sound-btn" id="hero-sound-btn">🔇 Tap for sound</button>
+  <div class="hero-particles" id="hero-particles"></div>
+  <div class="hero-grid">
+    <div class="hero-content reveal-left">
+      <div class="hero-badge" data-it="🏆 Partner Elite Lamborghini Caloreclima" data-en="🏆 Elite Partner Lamborghini Caloreclima">🏆 Partner Elite Lamborghini Caloreclima</div>
+      <h1 class="hero-title">
+        <span class="hero-title-line" data-it="La tua casa" data-en="Your home">La tua casa</span>
+        <span class="hero-title-accent" data-it="diventa smart" data-en="goes smart">diventa smart</span>
+        <span class="hero-title-line" data-it="con l'energia solare" data-en="with solar energy">con l'energia solare</span>
+      </h1>
+      <p class="hero-desc" data-it="Impianti fotovoltaici, accumulo energia, pompe di calore e colonnine EV. Tutto incluso, tutto garantito, tutto pensato per te." data-en="Solar systems, energy storage, heat pumps and EV chargers. All included, all guaranteed, all designed for you.">
+        Impianti fotovoltaici, accumulo energia, pompe di calore e colonnine EV. Tutto incluso, tutto garantito, tutto pensato per te.
+      </p>
+      <div class="hero-price-card reveal-up">
+        <div class="price-badge" data-it="OFFERTA" data-en="OFFER">OFFERTA</div>
+        <div class="price-main">€139<span>/mese</span></div>
+        <div class="price-sub" data-it="120 rate · IVA inclusa · Pratiche incluse" data-en="120 installments · VAT included · Paperwork included">120 rate · IVA inclusa · Pratiche incluse</div>
+        <div class="price-features">
+          <span>☀️ 6 kWp Fotovoltaico</span>
+          <span>🔋 10 kWh Accumulo</span>
+        </div>
+      </div>
+      <div class="hero-buttons">
+        <a href="contact.html" class="btn-primary" data-it="Richiedi Preventivo Gratuito" data-en="Get Free Quote">Richiedi Preventivo Gratuito</a>
+        <a href="https://wa.me/393792620610?text=Ciao,%20vorrei%20informazioni%20sui%20vostri%20prodotti" target="_blank" class="btn-whatsapp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span data-it="WhatsApp" data-en="WhatsApp">WhatsApp</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual reveal-right">
+      <div class="smart-house-container">
+        <!-- Floating stat cards over the video -->
+        <div class="stat-float stat-float-1 reveal-up" style="animation-delay:0.3s">
+          <span class="sf-icon">☀️</span>
+          <div><div class="sf-val" data-count="500">0</div><div class="sf-label" data-it="Installazioni" data-en="Installations">Installazioni</div></div>
+        </div>
+        <div class="stat-float stat-float-2 reveal-up" style="animation-delay:0.5s">
+          <span class="sf-icon">⚡</span>
+          <div><div class="sf-val" data-count="30" data-suffix=" anni">0</div><div class="sf-label" data-it="Garanzia" data-en="Warranty">Garanzia</div></div>
+        </div>
+        <div class="stat-float stat-float-3 reveal-up" style="animation-delay:0.7s">
+          <span class="sf-icon">🌱</span>
+          <div><div class="sf-val" data-count="80" data-suffix="%">0</div><div class="sf-label" data-it="Risparmio" data-en="Savings">Risparmio</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scroll indicator -->
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    <span data-it="Scopri di più" data-en="Discover more">Scopri di più</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     WHY TF ENERGY
+══════════════════════════════════ -->
+<section class="section why-section" id="why">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="PERCHÉ SCEGLIERCI" data-en="WHY CHOOSE US">PERCHÉ SCEGLIERCI</div>
+      <h2 class="section-title" data-it="L'energia di domani, <span class='accent'>oggi</span>" data-en="Tomorrow's energy, <span class='accent'>today</span>">L'energia di domani, <span class="accent">oggi</span></h2>
+      <p class="section-sub" data-it="Dal sopralluogo all'allaccio: tutto incluso nel tuo preventivo" data-en="From site survey to connection: everything included in your quote">Dal sopralluogo all'allaccio: tutto incluso nel tuo preventivo</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal-up" style="animation-delay:0.1s">
+        <div class="why-icon-wrap"><i data-lucide="shield-check" class="why-icon"></i></div>
+        <h3 data-it="Tutto Incluso" data-en="All Inclusive">Tutto Incluso</h3>
+        <p data-it="Sopralluogo, progettazione, trasporto, installazione, pratiche ENEA e allaccio rete — zero sorprese." data-en="Site survey, design, transport, installation, ENEA paperwork and grid connection — zero surprises.">Sopralluogo, progettazione, trasporto, installazione, pratiche ENEA e allaccio rete — zero sorprese.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:0.2s">
+        <div class="why-icon-wrap"><i data-lucide="award" class="why-icon"></i></div>
+        <h3 data-it="30 Anni di Garanzia" data-en="30-Year Warranty">30 Anni di Garanzia</h3>
+        <p data-it="Pannelli Omnis Power con 30 anni di garanzia su materiali ed efficienza di produzione." data-en="Omnis Power panels with 30-year warranty on materials and production efficiency.">Pannelli Omnis Power con 30 anni di garanzia su materiali ed efficienza di produzione.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:0.3s">
+        <div class="why-icon-wrap"><i data-lucide="percent" class="why-icon"></i></div>
+        <h3 data-it="Detrazioni Fiscali" data-en="Tax Deductions">Detrazioni Fiscali</h3>
+        <p data-it="50% prima casa, 36% seconda casa su 10 anni. Massimale €96.000. Ti guidiamo noi." data-en="50% first home, 36% second home over 10 years. Maximum €96,000. We guide you through it.">50% prima casa, 36% seconda casa su 10 anni. Massimale €96.000. Ti guidiamo noi.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:0.4s">
+        <div class="why-icon-wrap"><i data-lucide="headphones" class="why-icon"></i></div>
+        <h3 data-it="Supporto 24/7" data-en="24/7 Support">Supporto 24/7</h3>
+        <p data-it="Il tuo impianto non dorme mai e neanche noi. Assistenza continua per qualsiasi necessità." data-en="Your system never sleeps and neither do we. Continuous support for any need.">Il tuo impianto non dorme mai e neanche noi. Assistenza continua per qualsiasi necessità.</p>
+      </div>
+      <div class="why-card reveal-up" style="animation-delay:0.5s">
+        <div class="why-icon-wrap"><i data-lucide="zap" class="why-icon"></i></div>
+        <h3 data-it="Tecnologia All'avanguardia" data-en="Cutting-Edge Technology">Tecnologia All'avanguardia</h3>
+        <p data-it="Inverter ibridi, batterie al litio ad alta efficienza, sistemi smart energy management." data-en="Hybrid inverters, high-efficiency lithium batteries, smart energy management systems.">Inverter ibridi, batterie al litio ad alta efficienza, sistemi smart energy management.</p>
+      </div>
+      <div class="why-card why-card-highlight reveal-up" style="animation-delay:0.6s">
+        <div class="why-icon-wrap"><i data-lucide="trending-down" class="why-icon"></i></div>
+        <h3 data-it="Fino a -80% in Bolletta" data-en="Up to -80% on Bills">Fino a -80% in Bolletta</h3>
+        <p data-it="Con il nostro sistema integrato fotovoltaico + accumulo, abbatti drasticamente i costi energetici." data-en="With our integrated solar + storage system, drastically reduce your energy costs.">Con il nostro sistema integrato fotovoltaico + accumulo, abbatti drasticamente i costi energetici.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PRODUCTS PREVIEW
+══════════════════════════════════ -->
+<section class="section products-preview" id="products-preview">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="I NOSTRI PRODOTTI" data-en="OUR PRODUCTS">I NOSTRI PRODOTTI</div>
+      <h2 class="section-title" data-it="Soluzioni per ogni <span class='accent'>esigenza</span>" data-en="Solutions for every <span class='accent'>need</span>">Soluzioni per ogni <span class="accent">esigenza</span></h2>
+    </div>
+    <div class="products-grid">
+      <a href="products.html#fotovoltaico" class="prod-card reveal-up" style="animation-delay:0.1s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2022/08/3-2.png" alt="Fotovoltaico" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Fotovoltaico + Accumulo" data-en="Solar + Storage">Fotovoltaico + Accumulo</h3>
+          <p data-it="Pannelli bifacciali Ultra Black, inverter ibridi e accumulo 10 kWh." data-en="Bifacial Ultra Black panels, hybrid inverters and 10 kWh storage.">Pannelli bifacciali Ultra Black, inverter ibridi e accumulo 10 kWh.</p>
+          <div class="prod-price">da €139/mese</div>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+      <a href="products.html#colonnina" class="prod-card reveal-up" style="animation-delay:0.2s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2022/08/1-1.png" alt="Colonnina di Ricarica" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Colonnina di Ricarica" data-en="EV Charger">Colonnina di Ricarica</h3>
+          <p data-it="Ricarica intelligente per la tua auto elettrica, integrata con il tuo impianto FTV." data-en="Smart charging for your electric car, integrated with your solar system.">Ricarica intelligente per la tua auto elettrica, integrata con il tuo impianto FTV.</p>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+      <a href="products.html#climatizzatore" class="prod-card reveal-up" style="animation-delay:0.3s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2025/10/GRAFICA-SOLO-IMMAGINI-QUADRATO-3-1-768x768.png" alt="Climatizzatore" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Climatizzatore" data-en="Air Conditioning">Climatizzatore</h3>
+          <p data-it="Monosplit 12.000 BTU, pompa di calore, detrazione fiscale inclusa." data-en="12,000 BTU monosplit, heat pump, tax deduction included.">Monosplit 12.000 BTU, pompa di calore, detrazione fiscale inclusa.</p>
+          <div class="prod-price">da €19/mese</div>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+      <a href="products.html#pompa" class="prod-card reveal-up" style="animation-delay:0.4s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2022/08/6-1.png" alt="Pompa di Calore" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Pompa di Calore ACS" data-en="Heat Pump ACS">Pompa di Calore ACS</h3>
+          <p data-it="Acqua calda sanitaria ad alta efficienza, Partner Elite Lamborghini Caloreclima." data-en="High-efficiency domestic hot water, Elite Partner Lamborghini Caloreclima.">Acqua calda sanitaria ad alta efficienza, Partner Elite Lamborghini Caloreclima.</p>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+      <a href="products.html#ibrido" class="prod-card reveal-up" style="animation-delay:0.5s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2022/08/7-1.png" alt="Sistema Ibrido" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Sistema Ibrido & PDC" data-en="Hybrid System & HPC">Sistema Ibrido & PDC</h3>
+          <p data-it="La soluzione completa per riscaldamento, raffreddamento e produzione elettrica." data-en="The complete solution for heating, cooling and electricity generation.">La soluzione completa per riscaldamento, raffreddamento e produzione elettrica.</p>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+      <a href="products.html#caldaie" class="prod-card reveal-up" style="animation-delay:0.6s">
+        <div class="prod-img-wrap">
+          <img src="https://tfenergy.it/wp-content/uploads/2025/12/5-1024x1024.png" alt="Caldaia" loading="lazy"/>
+        </div>
+        <div class="prod-body">
+          <h3 data-it="Caldaie a Condensazione" data-en="Condensing Boilers">Caldaie a Condensazione</h3>
+          <p data-it="Alta efficienza energetica con tecnologia Lamborghini Caloreclima Partner Elite." data-en="High energy efficiency with Lamborghini Caloreclima Elite Partner technology.">Alta efficienza energetica con tecnologia Lamborghini Caloreclima Partner Elite.</p>
+          <span class="prod-link" data-it="Scopri →" data-en="Discover →">Scopri →</span>
+        </div>
+      </a>
+    </div>
+    <div class="section-cta reveal-up">
+      <a href="products.html" class="btn-secondary" data-it="Vedi tutti i prodotti" data-en="See all products">Vedi tutti i prodotti</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PARTNER ELITE LAMBORGHINI
+══════════════════════════════════ -->
+<section class="section partner-section" id="partner">
+  <div class="container">
+    <div class="partner-banner reveal-up">
+      <div class="partner-left">
+        <div class="partner-badge-big">PARTNER<br/><span>ELITE</span></div>
+        <div class="partner-text">
+          <h2 data-it="Lamborghini Caloreclima" data-en="Lamborghini Caloreclima">Lamborghini Caloreclima</h2>
+          <p data-it="Siamo rivenditori ufficiali Partner Elite Lamborghini Caloreclima. Qualità premium, tecnologia italiana, garanzia estesa su tutti i prodotti." data-en="We are official Elite Partner dealers for Lamborghini Caloreclima. Premium quality, Italian technology, extended warranty on all products.">Siamo rivenditori ufficiali Partner Elite Lamborghini Caloreclima. Qualità premium, tecnologia italiana, garanzia estesa su tutti i prodotti.</p>
+          <a href="products.html" class="btn-outline" data-it="Scopri i prodotti Lamborghini" data-en="Discover Lamborghini products">Scopri i prodotti Lamborghini</a>
+        </div>
+      </div>
+      <div class="partner-products-mini">
+        <div class="pm-card"><img src="https://tfenergy.it/wp-content/uploads/2025/10/GRAFICA-SOLO-IMMAGINI-QUADRATO-3-1.png" alt="Climatizzatore"/><span data-it="Climatizzatore" data-en="A/C">Climatizzatore</span></div>
+        <div class="pm-card"><img src="https://tfenergy.it/wp-content/uploads/2025/12/11-1024x1024.png" alt="Scaldacqua"/><span data-it="Scaldacqua PDC" data-en="Heat Pump WH">Scaldacqua PDC</span></div>
+        <div class="pm-card"><img src="https://tfenergy.it/wp-content/uploads/2025/12/5-1024x1024.png" alt="Caldaia"/><span data-it="Caldaia" data-en="Boiler">Caldaia</span></div>
+        <div class="pm-card"><img src="https://tfenergy.it/wp-content/uploads/2025/12/6-300x300.png" alt="PDC"/><span data-it="Pompa di Calore" data-en="Heat Pump">Pompa di Calore</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PROJECTS PREVIEW
+══════════════════════════════════ -->
+<section class="section projects-section" id="projects-preview">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="I NOSTRI PROGETTI" data-en="OUR PROJECTS">I NOSTRI PROGETTI</div>
+      <h2 class="section-title" data-it="Installiamo in tutta <span class='accent'>Italia</span>" data-en="We install all across <span class='accent'>Italy</span>">Installiamo in tutta <span class="accent">Italia</span></h2>
+      <p class="section-sub" data-it="Oltre 500 impianti realizzati tra Veneto, Padovano e zone limitrofe" data-en="Over 500 installations across Veneto, Padua area and surroundings">Oltre 500 impianti realizzati tra Veneto, Padovano e zone limitrofe</p>
+    </div>
+    <div class="projects-mosaic reveal-up">
+      <div class="proj-item proj-big">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/3-300x300.png" alt="CA' PIERLUIGI T."/>
+        <div class="proj-overlay"><span>CA' PIERLUIGI T.</span><small>Villa Estense PD</small></div>
+      </div>
+      <div class="proj-item">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/2-300x300.png" alt="CA' GIAMMARCO G."/>
+        <div class="proj-overlay"><span>CA' GIAMMARCO G.</span><small>Sant'Ambrogio VR</small></div>
+      </div>
+      <div class="proj-item">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/16-300x300.png" alt="CA' ALLA GROTTA"/>
+        <div class="proj-overlay"><span>CA' ALLA GROTTA</span><small>Nanto VI</small></div>
+      </div>
+      <div class="proj-item">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/14-300x300.png" alt="CA' MARIO P."/>
+        <div class="proj-overlay"><span>CA' MARIO P.</span><small>Verona</small></div>
+      </div>
+      <div class="proj-item">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/13-300x300.png" alt="CA' ROBERTO A."/>
+        <div class="proj-overlay"><span>CA' ROBERTO A.</span><small>Roverè Veronese VR</small></div>
+      </div>
+      <div class="proj-item">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/12-300x300.png" alt="CA' WALTER V."/>
+        <div class="proj-overlay"><span>CA' WALTER V.</span><small>Ranfolina PD</small></div>
+      </div>
+    </div>
+    <div class="section-cta reveal-up">
+      <a href="projects.html" class="btn-secondary" data-it="Vedi tutti i progetti" data-en="See all projects">Vedi tutti i progetti</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     REVIEWS SECTION
+══════════════════════════════════ -->
+<section class="section reviews-section" id="reviews">
+  <div class="container">
+    <div class="section-header reveal-up">
+      <div class="section-eyebrow" data-it="RECENSIONI GOOGLE" data-en="GOOGLE REVIEWS">RECENSIONI GOOGLE</div>
+      <h2 class="section-title" data-it="Cosa dicono i <span class='accent'>clienti</span>" data-en="What <span class='accent'>customers</span> say">Cosa dicono i <span class="accent">clienti</span></h2>
+      <div class="rating-summary">
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-score">4.9</div>
+        <div class="rating-count" data-it="su Google Reviews" data-en="on Google Reviews">su Google Reviews</div>
+      </div>
+    </div>
+    <div class="reviews-slider reveal-up">
+      <div class="reviews-track" id="reviews-track">
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Servizio eccellente e professionale. L\'installazione è stata completata in un giorno, tutto pulito e ordinato. Risparmio in bolletta notevole già dal primo mese. Altamente consigliato!"' data-en='"Excellent and professional service. Installation completed in one day, everything clean and tidy. Significant bill savings from the first month. Highly recommended!"'>"Servizio eccellente e professionale. L'installazione è stata completata in un giorno, tutto pulito e ordinato. Risparmio in bolletta notevole già dal primo mese. Altamente consigliato!"</p>
+          <div class="rev-author"><strong>Marco R.</strong><span>Padova</span></div>
+        </div>
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Ho installato il sistema ibrido con pompa di calore. TF ENERGY SRL è stata chiarissima fin dall\'inizio, nessuna sorpresa di costo. Il personale è competente e gentile. 5 stelle meritate!"' data-en='"I installed the hybrid heat pump system. TF ENERGY SRL was crystal clear from the start, no cost surprises. Staff is competent and kind. 5 stars well deserved!"'>"Ho installato il sistema ibrido con pompa di calore. TF ENERGY SRL è stata chiarissima fin dall'inizio, nessuna sorpresa di costo. Il personale è competente e gentile. 5 stelle meritate!"</p>
+          <div class="rev-author"><strong>Giovanna M.</strong><span>Verona</span></div>
+        </div>
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Impianto fotovoltaico + accumulo installato a Monticelli. Professionalità assoluta, puntualità, e dopo 6 mesi l\'impianto produce esattamente come promesso. Consigliatissimi!"' data-en='"Solar + storage system installed at Monticelli. Absolute professionalism, punctuality, and after 6 months the system produces exactly as promised. Highly recommended!"'>"Impianto fotovoltaico + accumulo installato a Monticelli. Professionalità assoluta, puntualità, e dopo 6 mesi l'impianto produce esattamente come promesso. Consigliatissimi!"</p>
+          <div class="rev-author"><strong>Paolo B.</strong><span>Verona VR</span></div>
+        </div>
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Colonnina di ricarica installata insieme al fotovoltaico. Ora carico l\'auto gratis con l\'energia del sole! Ottimo servizio pre e post vendita. Team molto preparato."' data-en='"EV charger installed together with solar. Now I charge my car for free with solar energy! Excellent pre and post-sale service. Very prepared team."'>"Colonnina di ricarica installata insieme al fotovoltaico. Ora carico l'auto gratis con l'energia del sole! Ottimo servizio pre e post vendita. Team molto preparato."</p>
+          <div class="rev-author"><strong>Stefania C.</strong><span>Este PD</span></div>
+        </div>
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Sono Partner Elite Lamborghini Caloreclima e si vede: prodotti di qualità top, garanzie chiare e personale qualificato. La mia caldaia a condensazione funziona perfettamente."' data-en='"They are Elite Partners with Lamborghini Caloreclima and it shows: top quality products, clear warranties and qualified staff. My condensing boiler works perfectly."'>"Sono Partner Elite Lamborghini Caloreclima e si vede: prodotti di qualità top, garanzie chiare e personale qualificato. La mia caldaia a condensazione funziona perfettamente."</p>
+          <div class="rev-author"><strong>Roberto F.</strong><span>Soave VR</span></div>
+        </div>
+        <div class="review-card">
+          <div class="rev-stars">★★★★★</div>
+          <p data-it='"Preventivo rapido, prezzi trasparenti, installazione impeccabile. Ho già consigliato TF ENERGY SRL a tutti i miei vicini di casa. Il risparmio è reale e misurabile!"' data-en='"Fast quote, transparent prices, impeccable installation. I have already recommended TF ENERGY SRL to all my neighbors. The savings are real and measurable!"'>"Preventivo rapido, prezzi trasparenti, installazione impeccabile. Ho già consigliato TF ENERGY SRL a tutti i miei vicini di casa. Il risparmio è reale e misurabile!"</p>
+          <div class="rev-author"><strong>Luca V.</strong><span>Ponso PD</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-controls">
+      <button class="rev-btn" id="rev-prev" aria-label="Previous">‹</button>
+      <div class="rev-dots" id="rev-dots"></div>
+      <button class="rev-btn" id="rev-next" aria-label="Next">›</button>
+    </div>
+    <div class="section-cta reveal-up">
+      <a href="https://www.google.com/maps/search/TF+Energy+tfenergy.it" target="_blank" class="btn-google-review" data-it="Leggi tutte le recensioni su Google" data-en="Read all reviews on Google">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        <span data-it="Leggi tutte le recensioni su Google" data-en="Read all reviews on Google">Leggi tutte le recensioni su Google</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     CTA SECTION
+══════════════════════════════════ -->
+<section class="section cta-section" id="cta">
+  <div class="container">
+    <div class="cta-box reveal-up">
+      <div class="cta-glow"></div>
+      <div class="cta-content">
+        <h2 data-it="Pronto per la rivoluzione <span class='accent'>energetica</span>?" data-en="Ready for the <span class='accent'>energy</span> revolution?">Pronto per la rivoluzione <span class="accent">energetica</span>?</h2>
+        <p data-it="Richiedi un preventivo gratuito e senza impegno. Ti ricontatteremo entro 24 ore." data-en="Request a free, no-obligation quote. We'll get back to you within 24 hours.">Richiedi un preventivo gratuito e senza impegno. Ti ricontatteremo entro 24 ore.</p>
+        <div class="cta-buttons">
+          <a href="contact.html" class="btn-primary-lg" data-it="Richiedi Preventivo Gratuito" data-en="Request Free Quote">Richiedi Preventivo Gratuito</a>
+          <a href="https://wa.me/393792620610?text=Ciao%2C%20vorrei%20un%20preventivo%20gratuito" target="_blank" class="btn-whatsapp-lg">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-it="Scrivici su WhatsApp" data-en="Chat on WhatsApp">Scrivici su WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="footer-logo"/>
+        <p data-it="Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale." data-en="Innovative energy solutions for homes and businesses. Certified quality, professional installation.">Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/393792620610" target="_blank" aria-label="WhatsApp" class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="mailto:info@tfenergy.it" aria-label="Email" class="social-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Navigazione" data-en="Navigation">Navigazione</h4>
+        <a href="index.html" data-it="Home" data-en="Home">Home</a>
+        <a href="about.html" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+        <a href="products.html" data-it="Prodotti" data-en="Products">Prodotti</a>
+        <a href="projects.html" data-it="Progetti" data-en="Projects">Progetti</a>
+        <a href="contact.html" data-it="Contatti" data-en="Contacts">Contatti</a>
+        <a href="admin.html" data-it="Admin" data-en="Admin">Admin</a>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Prodotti" data-en="Products">Prodotti</h4>
+        <a href="products.html#fotovoltaico" data-it="FTV + Accumulo" data-en="Solar + Storage">FTV + Accumulo</a>
+        <a href="products.html#colonnina" data-it="Colonnina EV" data-en="EV Charger">Colonnina EV</a>
+        <a href="products.html#caldaie" data-it="Caldaie" data-en="Boilers">Caldaie</a>
+        <a href="products.html#pompa" data-it="Pompa di Calore" data-en="Heat Pump">Pompa di Calore</a>
+        <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+        <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="A/C">Climatizzatore</a>
+      </div>
+      <div class="footer-contact-col">
+        <h4 data-it="Contatti" data-en="Contact">Contatti</h4>
+        <a href="tel:+393792620610"><strong>+39 379 262 0610</strong></a>
+        <a href="tel:+3904291960549">+39 0429 196 0549</a>
+        <a href="mailto:info@tfenergy.it">info@tfenergy.it</a>
+        <div class="footer-addresses">
+          <p><strong data-it="Sede Legale:" data-en="Legal HQ:">Sede Legale:</strong><br/>P.zza Aldo Moro 44-45,<br/>35040 Casale di Scodosia (PD)</p>
+          <p><strong data-it="Sede Logistica:" data-en="Logistics:">Sede Logistica:</strong><br/>Via Principe Umberto 51/A,<br/>35042 Este (PD)</p>
+          <p><strong data-it="Magazzino:" data-en="Warehouse:">Magazzino:</strong><br/>Via Martinelle 150,<br/>35040 Casale di Scodosia (PD)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>© 2026 TF ENERGY SRL – P.I. 05219770285</span>
+      <a href="https://www.iubenda.com/privacy-policy/19641559" target="_blank" data-it="Privacy Policy" data-en="Privacy Policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/393792620610?text=Ciao%2C%20vorrei%20informazioni%20sui%20prodotti%20TF%20Energy" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="main.js"></script>
+</body>
+</html>

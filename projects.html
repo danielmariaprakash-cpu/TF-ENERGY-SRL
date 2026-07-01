@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Progetti – TF ENERGY SRL</title>
+<meta name="description" content="I nostri progetti realizzati: oltre 500 installazioni fotovoltaiche e impianti energetici in Veneto."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+.gallery-filter{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.filter-chip{font-size:.82rem;font-weight:600;padding:9px 18px;border-radius:100px;border:1px solid var(--border-color);color:var(--text-secondary);transition:var(--transition)}
+.filter-chip:hover,.filter-chip.active{color:var(--white);background:var(--gradient-accent);border-color:transparent}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery-item{position:relative;border-radius:var(--radius-md);overflow:hidden;aspect-ratio:1;cursor:pointer;background:rgba(30,58,138,.3)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,27,94,.95) 0%,rgba(15,27,94,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;opacity:0;transition:var(--transition)}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-overlay span{font-weight:700;font-size:.82rem;color:var(--white);display:block}
+.gallery-overlay small{font-size:.72rem;color:var(--lavender-light)}
+.lightbox{position:fixed;inset:0;background:rgba(5,10,40,.95);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.active{display:flex}
+.lightbox-content{max-width:800px;max-height:85vh;position:relative}
+.lightbox-content img{max-width:100%;max-height:80vh;border-radius:var(--radius-md);object-fit:contain}
+.lightbox-caption{text-align:center;margin-top:16px;color:var(--white)}
+.lightbox-close{position:absolute;top:-50px;right:0;background:rgba(255,255,255,.1);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1.5rem;transition:var(--transition)}
+.lightbox-close:hover{background:rgba(255,255,255,.2)}
+@media(max-width:1024px){.gallery-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="launch-overlay">
+  <div class="launch-inner">
+    <div class="launch-logo-wrap"><img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL Logo" class="launch-logo"/></div>
+    <div class="launch-brand">TF ENERGY SRL</div>
+    <div class="launch-tagline" id="launch-tagline">Energia. Innovazione. Futuro.</div>
+    <div class="launch-progress-bar"><div class="launch-progress-fill" id="launch-fill"></div></div>
+    <div class="launch-percent" id="launch-percent">0%</div>
+    <div class="launch-particles" id="launch-particles"></div>
+  </div>
+</div>
+
+<header id="navbar">
+  <nav class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="nav-logo-img"/>
+      <span class="nav-logo-text">TF ENERGY SRL</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html" class="nav-link" data-it="Home" data-en="Home">Home</a>
+      <a href="about.html" class="nav-link" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+      <div class="nav-dropdown">
+        <a class="nav-link dropdown-trigger" data-it="Prodotti" data-en="Products">Prodotti <span class="caret">▾</span></a>
+        <div class="dropdown-menu">
+          <a href="products.html#fotovoltaico" data-it="FTV + Accumulatore" data-en="Solar + Storage">FTV + Accumulatore</a>
+          <a href="products.html#colonnina" data-it="Colonnina di Ricarica" data-en="EV Charger">Colonnina di Ricarica</a>
+          <a href="products.html#caldaie" data-it="Caldaie Murali" data-en="Wall Boilers">Caldaie Murali</a>
+          <a href="products.html#pompa" data-it="Pompa di Calore ACS" data-en="Heat Pump ACS">Pompa di Calore ACS</a>
+          <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+          <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="Air Conditioning">Climatizzatore</a>
+        </div>
+      </div>
+      <a href="projects.html" class="nav-link active" data-it="Progetti" data-en="Projects">Progetti</a>
+      <a href="contact.html" class="nav-link" data-it="Contatti" data-en="Contact">Contatti</a>
+    </div>
+    <div class="nav-actions">
+      <button class="lang-toggle" id="lang-toggle"><span class="lang-it active">IT</span><span class="lang-sep">|</span><span class="lang-en">EN</span></button>
+      <a href="contact.html" class="btn-cta-nav" data-it="Preventivo" data-en="Get Quote">Preventivo</a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-badge" data-it="📍 Veneto e provincia" data-en="📍 Veneto region">📍 Veneto e provincia</div>
+    <h1 data-it="I Nostri Progetti" data-en="Our Projects">I Nostri Progetti</h1>
+    <p data-it="Oltre 500 impianti realizzati con cura e professionalità in tutto il Veneto. Ogni progetto è una storia di risparmio ed efficienza energetica." data-en="Over 500 systems installed with care and professionalism across Veneto. Every project is a story of savings and energy efficiency.">Oltre 500 impianti realizzati con cura e professionalità in tutto il Veneto. Ogni progetto è una storia di risparmio ed efficienza energetica.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:48px">
+  <div class="container">
+    <div class="gallery-filter reveal-up">
+      <button class="filter-chip active" data-filter="all" data-it="Tutti" data-en="All">Tutti</button>
+      <button class="filter-chip" data-filter="PD" data-it="Padova" data-en="Padua">Padova</button>
+      <button class="filter-chip" data-filter="VR" data-it="Verona" data-en="Verona">Verona</button>
+      <button class="filter-chip" data-filter="VI" data-it="Vicenza" data-en="Vicenza">Vicenza</button>
+      <button class="filter-chip" data-filter="RO" data-it="Rovigo" data-en="Rovigo">Rovigo</button>
+    </div>
+
+    <div class="gallery-grid reveal-up" id="gallery-grid">
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/3-e1761129758546.png" data-title="CA' PIERLUIGI T." data-loc="Villa Estense PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/3-300x300.png" alt="CA' PIERLUIGI T."/>
+        <div class="gallery-overlay"><span>CA' PIERLUIGI T.</span><small>Villa Estense PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/10/2-e1761129792519.png" data-title="CA' GIAMMARCO G." data-loc="Sant'Ambrogio di Valpolicella VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/2-300x300.png" alt="CA' GIAMMARCO G."/>
+        <div class="gallery-overlay"><span>CA' GIAMMARCO G.</span><small>Sant'Ambrogio di Valpolicella VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VI" data-img="https://tfenergy.it/wp-content/uploads/2025/10/1-e1761135803223.png" data-title="CA' MICHELE R." data-loc="Valdagno VI">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/1-e1761135803223.png" alt="CA' MICHELE R."/>
+        <div class="gallery-overlay"><span>CA' MICHELE R.</span><small>Valdagno VI</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VI" data-img="https://tfenergy.it/wp-content/uploads/2025/10/16-e1761129823650.png" data-title="CA' ALLA GROTTA" data-loc="Nanto VI">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/16-300x300.png" alt="CA' ALLA GROTTA"/>
+        <div class="gallery-overlay"><span>CA' ALLA GROTTA</span><small>Nanto VI</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VI" data-img="https://tfenergy.it/wp-content/uploads/2025/10/15-e1761129840356.png" data-title="CA' ALLA GROTTA" data-loc="Nanto VI">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/15-300x300.png" alt="CA' ALLA GROTTA"/>
+        <div class="gallery-overlay"><span>CA' ALLA GROTTA</span><small>Nanto VI</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/10/14-e1761129853719.png" data-title="CA' MARIO P." data-loc="Verona">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/14-300x300.png" alt="CA' MARIO P."/>
+        <div class="gallery-overlay"><span>CA' MARIO P.</span><small>Verona</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/10/13.png" data-title="CA' ROBERTO A." data-loc="Roverè Veronese VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/13-300x300.png" alt="CA' ROBERTO A."/>
+        <div class="gallery-overlay"><span>CA' ROBERTO A.</span><small>Roverè Veronese VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/12.png" data-title="CA' WALTER V." data-loc="Ranfolina PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/12-300x300.png" alt="CA' WALTER V."/>
+        <div class="gallery-overlay"><span>CA' WALTER V.</span><small>Ranfolina PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/11.png" data-title="CA' FERRIGATO P." data-loc="Borgo Veneto PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/11-300x300.png" alt="CA' FERRIGATO P."/>
+        <div class="gallery-overlay"><span>CA' FERRIGATO P.</span><small>Borgo Veneto PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/10/10.png" data-title="CA' PAOLO P." data-loc="Monticelli VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/10-300x300.png" alt="CA' PAOLO P."/>
+        <div class="gallery-overlay"><span>CA' PAOLO P.</span><small>Monticelli VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/9.png" data-title="CA' SIMONE P." data-loc="Sant'Elena PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/9-300x300.png" alt="CA' SIMONE P."/>
+        <div class="gallery-overlay"><span>CA' SIMONE P.</span><small>Sant'Elena PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/8.png" data-title="CA' ALBERTO D." data-loc="Ponso PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/8-300x300.png" alt="CA' ALBERTO D."/>
+        <div class="gallery-overlay"><span>CA' ALBERTO D.</span><small>Ponso PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="RO" data-img="https://tfenergy.it/wp-content/uploads/2025/10/7.png" data-title="CA' LARA B." data-loc="Frassinelle Polesine RO">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/7-300x300.png" alt="CA' LARA B."/>
+        <div class="gallery-overlay"><span>CA' LARA B.</span><small>Frassinelle Polesine RO</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VI" data-img="https://tfenergy.it/wp-content/uploads/2025/10/6.png" data-title="CA' PRO LOCO" data-loc="Nanto VI">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/6-300x300.png" alt="CA' PRO LOCO"/>
+        <div class="gallery-overlay"><span>CA' PRO LOCO</span><small>Nanto VI</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VI" data-img="https://tfenergy.it/wp-content/uploads/2025/10/5.png" data-title="CA' FRISON" data-loc="Orgiano VI">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/5-300x300.png" alt="CA' FRISON"/>
+        <div class="gallery-overlay"><span>CA' FRISON</span><small>Orgiano VI</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/10/4.png" data-title="CA' MARIO R." data-loc="Ponso PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/10/4-300x300.png" alt="CA' MARIO R."/>
+        <div class="gallery-overlay"><span>CA' MARIO R.</span><small>Ponso PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2024/02/4.png" data-title="CA' GIACOMO C." data-loc="Ponso PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2024/02/4-300x300.png" alt="CA' GIACOMO C."/>
+        <div class="gallery-overlay"><span>CA' GIACOMO C.</span><small>Ponso PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2024/02/20.png" data-title="CA' IVANA G." data-loc="Soave VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2024/02/20-300x300.png" alt="CA' IVANA G."/>
+        <div class="gallery-overlay"><span>CA' IVANA G.</span><small>Soave VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2025/01/5.png" data-title="CA' GABRIELLA F." data-loc="Montagnana PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/01/5-300x300.png" alt="CA' GABRIELLA F."/>
+        <div class="gallery-overlay"><span>CA' GABRIELLA F.</span><small>Montagnana PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/01/18.png" data-title="CA' IVANA G." data-loc="Soave VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/01/18-300x300.png" alt="CA' IVANA G."/>
+        <div class="gallery-overlay"><span>CA' IVANA G.</span><small>Soave VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="VR" data-img="https://tfenergy.it/wp-content/uploads/2025/01/19.png" data-title="CA' IVANA G." data-loc="Soave VR">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/01/19-300x300.png" alt="CA' IVANA G."/>
+        <div class="gallery-overlay"><span>CA' IVANA G.</span><small>Soave VR</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2024/02/22.png" data-title="CA' GRETA C." data-loc="Montegrotto Terme PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2024/02/22-300x300.png" alt="CA' GRETA C."/>
+        <div class="gallery-overlay"><span>CA' GRETA C.</span><small>Montegrotto Terme PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="PD" data-img="https://tfenergy.it/wp-content/uploads/2024/02/17.png" data-title="CA' FABIO P." data-loc="Solesino PD">
+        <img src="https://tfenergy.it/wp-content/uploads/2024/02/17-300x300.png" alt="CA' FABIO P."/>
+        <div class="gallery-overlay"><span>CA' FABIO P.</span><small>Solesino PD</small></div>
+      </div>
+      <div class="gallery-item" data-zone="RO" data-img="https://tfenergy.it/wp-content/uploads/2025/01/21.png" data-title="CA' LUCA B." data-loc="Villa Bartolomea RO">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/01/21-300x300.png" alt="CA' LUCA B."/>
+        <div class="gallery-overlay"><span>CA' LUCA B.</span><small>Villa Bartolomea RO</small></div>
+      </div>
+      <div class="gallery-item" data-zone="RO" data-img="https://tfenergy.it/wp-content/uploads/2025/01/6.png" data-title="CA' SAMUELE B." data-loc="Lendinara RO">
+        <img src="https://tfenergy.it/wp-content/uploads/2025/01/6-300x300.png" alt="CA' SAMUELE B."/>
+        <div class="gallery-overlay"><span>CA' SAMUELE B.</span><small>Lendinara RO</small></div>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top:32px;color:var(--text-secondary);font-size:.9rem" data-it="… e oltre 480 altri impianti realizzati in tutto il Veneto" data-en="… and over 480 other systems installed across Veneto">… e oltre 480 altri impianti realizzati in tutto il Veneto</div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<section class="section why-section" style="padding:64px 0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center">
+      <div class="reveal-up"><div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--white)" data-count="500" data-suffix="+">0</div><div style="color:var(--text-secondary);font-size:.85rem" data-it="Impianti Installati" data-en="Systems Installed">Impianti Installati</div></div>
+      <div class="reveal-up" style="animation-delay:.1s"><div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--white)" data-count="4" data-suffix=" province">0</div><div style="color:var(--text-secondary);font-size:.85rem" data-it="Coperte in Veneto" data-en="Covered in Veneto">Coperte in Veneto</div></div>
+      <div class="reveal-up" style="animation-delay:.2s"><div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--white)" data-count="30" data-suffix=" MW">0</div><div style="color:var(--text-secondary);font-size:.85rem" data-it="Potenza Installata" data-en="Power Installed">Potenza Installata</div></div>
+      <div class="reveal-up" style="animation-delay:.3s"><div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--white)" data-count="99" data-suffix="%">0</div><div style="color:var(--text-secondary);font-size:.85rem" data-it="Clienti Soddisfatti" data-en="Satisfied Customers">Clienti Soddisfatti</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta-box reveal-up">
+      <div class="cta-glow"></div>
+      <div class="cta-content">
+        <h2 data-it="Il prossimo progetto è il <span class='accent'>tuo</span>" data-en="The next project is <span class='accent'>yours</span>">Il prossimo progetto è il <span class="accent">tuo</span></h2>
+        <p data-it="Richiedi un sopralluogo gratuito e scopri quanto puoi risparmiare." data-en="Request a free site survey and find out how much you can save.">Richiedi un sopralluogo gratuito e scopri quanto puoi risparmiare.</p>
+        <div class="cta-buttons">
+          <a href="contact.html" class="btn-primary-lg" data-it="Richiedi Sopralluogo Gratuito" data-en="Request Free Survey">Richiedi Sopralluogo Gratuito</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="https://tfenergy.it/wp-content/uploads/2022/09/Logo_web_TF-APP-copy.png" alt="TF ENERGY SRL" class="footer-logo"/>
+        <p data-it="Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale." data-en="Innovative energy solutions for homes and businesses. Certified quality, professional installation.">Soluzioni energetiche innovative per privati e aziende. Qualità certificata, installazione professionale.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/393792620610" target="_blank" class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          <a href="mailto:info@tfenergy.it" class="social-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Navigazione" data-en="Navigation">Navigazione</h4>
+        <a href="index.html" data-it="Home" data-en="Home">Home</a>
+        <a href="about.html" data-it="Chi Siamo" data-en="About Us">Chi Siamo</a>
+        <a href="products.html" data-it="Prodotti" data-en="Products">Prodotti</a>
+        <a href="projects.html" data-it="Progetti" data-en="Projects">Progetti</a>
+        <a href="contact.html" data-it="Contatti" data-en="Contacts">Contatti</a>
+        <a href="admin.html" data-it="Admin" data-en="Admin">Admin</a>
+      </div>
+      <div class="footer-nav-col">
+        <h4 data-it="Prodotti" data-en="Products">Prodotti</h4>
+        <a href="products.html#fotovoltaico" data-it="FTV + Accumulo" data-en="Solar + Storage">FTV + Accumulo</a>
+        <a href="products.html#colonnina" data-it="Colonnina EV" data-en="EV Charger">Colonnina EV</a>
+        <a href="products.html#caldaie" data-it="Caldaie" data-en="Boilers">Caldaie</a>
+        <a href="products.html#pompa" data-it="Pompa di Calore" data-en="Heat Pump">Pompa di Calore</a>
+        <a href="products.html#ibrido" data-it="Sistema Ibrido" data-en="Hybrid System">Sistema Ibrido</a>
+        <a href="products.html#climatizzatore" data-it="Climatizzatore" data-en="A/C">Climatizzatore</a>
+      </div>
+      <div class="footer-contact-col">
+        <h4 data-it="Contatti" data-en="Contact">Contatti</h4>
+        <a href="tel:+393792620610"><strong>+39 379 262 0610</strong></a>
+        <a href="tel:+3904291960549">+39 0429 196 0549</a>
+        <a href="mailto:info@tfenergy.it">info@tfenergy.it</a>
+        <div class="footer-addresses">
+          <p><strong data-it="Sede Legale:" data-en="Legal HQ:">Sede Legale:</strong><br/>P.zza Aldo Moro 44-45,<br/>35040 Casale di Scodosia (PD)</p>
+          <p><strong data-it="Sede Logistica:" data-en="Logistics:">Sede Logistica:</strong><br/>Via Principe Umberto 51/A,<br/>35042 Este (PD)</p>
+          <p><strong data-it="Magazzino:" data-en="Warehouse:">Magazzino:</strong><br/>Via Martinelle 150,<br/>35040 Casale di Scodosia (PD)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>© 2026 TF ENERGY SRL – P.I. 05219770285</span>
+      <a href="https://www.iubenda.com/privacy-policy/19641559" target="_blank" data-it="Privacy Policy" data-en="Privacy Policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <div class="lightbox-close" id="lightbox-close">×</div>
+    <img id="lightbox-img" src="" alt=""/>
+    <div class="lightbox-caption">
+      <strong id="lightbox-title" style="display:block;color:var(--white)"></strong>
+      <span id="lightbox-loc" style="color:var(--lavender-light);font-size:.85rem"></span>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/393792620610" target="_blank" class="whatsapp-float">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  // Filtering
+  const chips=document.querySelectorAll('.filter-chip');
+  const items=document.querySelectorAll('.gallery-item');
+  chips.forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      const f=chip.dataset.filter;
+      items.forEach(item=>{
+        item.style.display=(f==='all'||item.dataset.zone===f)?'block':'none';
+      });
+    });
+  });
+  // Lightbox
+  const lb=document.getElementById('lightbox');
+  const lbImg=document.getElementById('lightbox-img');
+  const lbTitle=document.getElementById('lightbox-title');
+  const lbLoc=document.getElementById('lightbox-loc');
+  items.forEach(item=>{
+    item.addEventListener('click',()=>{
+      lbImg.src=item.dataset.img;
+      lbTitle.textContent=item.dataset.title;
+      lbLoc.textContent=item.dataset.loc;
+      lb.classList.add('active');
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click',()=>lb.classList.remove('active'));
+  lb.addEventListener('click',(e)=>{if(e.target===lb)lb.classList.remove('active');});
+});
+</script>
+</body>
+</html>
