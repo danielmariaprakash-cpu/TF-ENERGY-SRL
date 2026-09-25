@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Admin – TF ENERGY SRL</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
+<style>
+/* ── Admin Panel Styles ── */
+:root {
+  --adm-bg: #f0f2f8;
+  --adm-card: #ffffff;
+  --adm-blue: #2540a0;
+  --adm-lav: #8d7fe8;
+  --adm-dark: #15225e;
+  --adm-text: #1e293b;
+  --adm-muted: #64748b;
+  --adm-border: #e2e8f0;
+  --adm-success: #22c55e;
+  --adm-danger: #ef4444;
+  --adm-warn: #f59e0b;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --adm-bg:#0f1729; --adm-card:#1e2a45; --adm-text:#e2e8f0; --adm-muted:#94a3b8; --adm-border:#2d3f6e; }
+}
+body.adm-body { background: var(--adm-bg); margin: 0; font-family: system-ui, sans-serif; color: var(--adm-text); }
+#adm-wrap { display: flex; min-height: 100vh; }
+/* Sidebar */
+#adm-sidebar {
+  width: 220px; background: var(--adm-dark); color: #fff;
+  display: flex; flex-direction: column; padding: 0;
+  position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;
+}
+#adm-sidebar .adm-logo {
+  padding: 20px 16px 16px; font-size: 1.1rem; font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; gap: 8px;
+}
+#adm-sidebar .adm-logo span { font-size: .7rem; font-weight: 400; opacity: .6; display: block; margin-top: 2px; }
+#adm-sidebar nav { flex: 1; padding: 12px 0; }
+#adm-sidebar nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; color: rgba(255,255,255,.75);
+  text-decoration: none; font-size: .9rem; transition: background .15s, color .15s;
+  border-left: 3px solid transparent;
+}
+#adm-sidebar nav a:hover, #adm-sidebar nav a.active {
+  background: rgba(141,127,232,.2); color: #fff; border-left-color: var(--adm-lav);
+}
+#adm-sidebar nav a svg { flex-shrink: 0; }
+.adm-sidebar-footer { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.1); }
+.adm-user-badge { font-size: .8rem; opacity: .7; margin-bottom: 8px; }
+.adm-logout-btn {
+  width: 100%; padding: 8px; background: rgba(239,68,68,.15); border: 1px solid rgba(239,68,68,.3);
+  color: #fca5a5; border-radius: 6px; cursor: pointer; font-size: .85rem; transition: background .15s;
+}
+.adm-logout-btn:hover { background: rgba(239,68,68,.3); }
+/* Main */
+#adm-main { margin-left: 220px; flex: 1; padding: 28px 32px; }
+#adm-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--adm-border);
+}
+#adm-topbar h1 { font-size: 1.5rem; font-weight: 700; color: var(--adm-blue); margin: 0; }
+.adm-back-link { color: var(--adm-lav); text-decoration: none; font-size: .9rem; display: flex; align-items: center; gap: 5px; }
+/* Stat cards */
+.adm-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 16px; margin-bottom: 28px; }
+.adm-stat-card {
+  background: var(--adm-card); border-radius: 12px; padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid var(--adm-border);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.adm-stat-card .adm-stat-label { font-size: .78rem; color: var(--adm-muted); text-transform: uppercase; letter-spacing: .05em; }
+.adm-stat-card .adm-stat-val { font-size: 1.8rem; font-weight: 800; color: var(--adm-blue); }
+.adm-stat-card .adm-stat-sub { font-size: .78rem; color: var(--adm-success); }
+/* Target Progress */
+.adm-target-card {
+  background: var(--adm-card); border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid var(--adm-border);
+  margin-bottom: 28px;
+}
+.adm-target-card h3 { margin: 0 0 14px; font-size: 1rem; color: var(--adm-text); }
+.adm-progress-bar { background: var(--adm-border); border-radius: 20px; height: 18px; overflow: hidden; }
+.adm-progress-fill {
+  height: 100%; border-radius: 20px;
+  background: linear-gradient(90deg, var(--adm-blue), var(--adm-lav));
+  transition: width .6s ease;
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+}
+.adm-progress-fill span { color: #fff; font-size: .7rem; font-weight: 700; }
+.adm-target-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: .8rem; color: var(--adm-muted); }
+/* Charts */
+.adm-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+@media (max-width: 700px) { .adm-charts { grid-template-columns: 1fr; } }
+.adm-chart-card {
+  background: var(--adm-card); border-radius: 12px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid var(--adm-border);
+}
+.adm-chart-card h3 { margin: 0 0 16px; font-size: 1rem; color: var(--adm-text); }
+/* Tables */
+.adm-section {
+  background: var(--adm-card); border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08); border: 1px solid var(--adm-border);
+  margin-bottom: 24px; display: none;
+}
+.adm-section.active { display: block; }
+.adm-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.adm-section-header h2 { font-size: 1.1rem; margin: 0; color: var(--adm-text); }
+.adm-btn { padding: 7px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: .85rem; font-weight: 600; transition: opacity .15s; }
+.adm-btn-primary { background: linear-gradient(135deg, var(--adm-blue), var(--adm-lav)); color: #fff; }
+.adm-btn-danger  { background: var(--adm-danger); color: #fff; }
+.adm-btn-sm      { padding: 4px 10px; font-size: .78rem; }
+.adm-btn:hover   { opacity: .85; }
+table.adm-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+table.adm-table th { background: var(--adm-bg); color: var(--adm-muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--adm-border); }
+table.adm-table td { padding: 10px 12px; border-bottom: 1px solid var(--adm-border); vertical-align: middle; }
+table.adm-table tr:hover td { background: var(--adm-bg); }
+.adm-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .72rem; font-weight: 600; }
+.adm-badge-green  { background: #dcfce7; color: #166534; }
+.adm-badge-yellow { background: #fef9c3; color: #854d0e; }
+.adm-badge-red    { background: #fee2e2; color: #991b1b; }
+.adm-badge-blue   { background: #dbeafe; color: #1e40af; }
+/* Modal */
+.adm-modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.adm-modal-bg.open { display: flex; }
+.adm-modal {
+  background: var(--adm-card); border-radius: 14px; padding: 28px 32px;
+  width: min(480px, 94vw); max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.adm-modal h3 { margin: 0 0 20px; font-size: 1.1rem; color: var(--adm-blue); }
+.adm-form-group { margin-bottom: 14px; }
+.adm-form-group label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: 4px; color: var(--adm-muted); }
+.adm-form-group input, .adm-form-group select, .adm-form-group textarea {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--adm-border); border-radius: 8px;
+  font-size: .9rem; background: var(--adm-bg); color: var(--adm-text);
+  box-sizing: border-box;
+}
+.adm-form-group textarea { min-height: 80px; resize: vertical; }
+.adm-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+/* Login */
+#adm-login-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0f1729 0%, #15225e 50%, #2540a0 100%);
+}
+.adm-login-card {
+  background: rgba(255,255,255,.07); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.15); border-radius: 20px;
+  padding: 44px 40px; width: min(400px, 92vw);
+  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+}
+.adm-login-logo { text-align: center; margin-bottom: 28px; }
+.adm-login-logo .adm-logo-circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #2540a0, #8d7fe8);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px; font-size: 1.6rem;
+}
+.adm-login-logo h2 { color: #fff; margin: 0; font-size: 1.3rem; }
+.adm-login-logo p  { color: rgba(255,255,255,.5); margin: 4px 0 0; font-size: .85rem; }
+.adm-login-field { margin-bottom: 14px; }
+.adm-login-field label { display: block; color: rgba(255,255,255,.65); font-size: .8rem; margin-bottom: 5px; }
+.adm-login-field input {
+  width: 100%; padding: 11px 14px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08);
+  color: #fff; font-size: .95rem; box-sizing: border-box;
+  transition: border-color .2s;
+}
+.adm-login-field input:focus { outline: none; border-color: #8d7fe8; }
+.adm-login-field input::placeholder { color: rgba(255,255,255,.3); }
+.adm-login-submit {
+  width: 100%; padding: 12px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, #2540a0, #8d7fe8); color: #fff;
+  font-size: 1rem; font-weight: 700; cursor: pointer; transition: opacity .2s;
+  margin-top: 8px;
+}
+.adm-login-submit:hover { opacity: .9; }
+.adm-login-error { color: #fca5a5; font-size: .85rem; text-align: center; margin-top: 10px; display: none; }
+/* ── Hamburger / Mobile Nav Button ── */
+#adm-hamburger {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--adm-blue); border: none; cursor: pointer;
+  flex-shrink: 0; transition: background .15s;
+}
+#adm-hamburger:hover { background: var(--adm-lav); }
+#adm-hamburger span {
+  display: block; width: 18px; height: 2px;
+  background: #fff; border-radius: 2px;
+  position: relative; transition: transform .25s, opacity .25s;
+}
+#adm-hamburger span::before,
+#adm-hamburger span::after {
+  content:''; position: absolute; left: 0;
+  width: 18px; height: 2px; background: #fff; border-radius: 2px;
+  transition: transform .25s;
+}
+#adm-hamburger span::before { top: -5px; }
+#adm-hamburger span::after  { top:  5px; }
+/* X state when open */
+body.adm-sidebar-open #adm-hamburger span { background: transparent; }
+body.adm-sidebar-open #adm-hamburger span::before { transform: rotate(45deg) translate(3.5px, 3.5px); }
+body.adm-sidebar-open #adm-hamburger span::after  { transform: rotate(-45deg) translate(3.5px,-3.5px); }
+
+/* ── Sidebar overlay backdrop ── */
+#adm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); z-index: 99;
+  backdrop-filter: blur(2px);
+}
+body.adm-sidebar-open #adm-overlay { display: block; }
+
+/* ── Table scroll wrapper ── */
+.adm-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+.adm-table-wrap::-webkit-scrollbar { height: 4px; }
+.adm-table-wrap::-webkit-scrollbar-thumb { background: var(--adm-border); border-radius: 2px; }
+
+/* ── Responsive: Tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+  #adm-sidebar { width: 200px; }
+  #adm-main { margin-left: 200px; padding: 20px 20px; }
+  .adm-charts { grid-template-columns: 1fr; }
+}
+
+/* ── Responsive: Mobile (≤ 700px) ── */
+@media (max-width: 700px) {
+  /* Sidebar becomes slide-in overlay */
+  #adm-sidebar {
+    position: fixed; top: 0; left: 0; height: 100vh;
+    width: 260px; z-index: 200;
+    transform: translateX(-100%);
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    box-shadow: none;
+  }
+  body.adm-sidebar-open #adm-sidebar {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0,0,0,.35);
+  }
+
+  /* Main takes full width */
+  #adm-main { margin-left: 0; padding: 16px 14px 28px; }
+
+  /* Topbar — show hamburger */
+  #adm-topbar {
+    position: sticky; top: 0; z-index: 90;
+    background: var(--adm-card);
+    padding: 12px 14px;
+    margin: -16px -14px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--adm-border);
+    gap: 12px;
+  }
+  #adm-hamburger { display: flex; }
+  #adm-topbar h1 { font-size: 1.1rem; }
+  .adm-back-link { font-size: .8rem; }
+
+  /* Stat cards — 2 per row */
+  .adm-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .adm-stat-card { padding: 14px 16px; }
+  .adm-stat-card .adm-stat-val { font-size: 1.4rem; }
+
+  /* Charts — single column */
+  .adm-charts { grid-template-columns: 1fr; gap: 14px; }
+
+  /* Section card full bleed */
+  .adm-section { padding: 16px 14px; border-radius: 10px; }
+  .adm-section-header { flex-wrap: wrap; gap: 10px; }
+
+  /* Modal — almost full screen on mobile */
+  .adm-modal {
+    width: 96vw; max-width: 96vw;
+    padding: 20px 16px;
+    border-radius: 16px 16px 0 0;
+    max-height: 88vh;
+  }
+  .adm-modal-bg { align-items: flex-end; }
+  .adm-modal-bg.open { display: flex; }
+
+  /* Project modal two-column grid → single */
+  .adm-modal [style*="grid-template-columns:1fr 1fr"] {
+    display: block !important;
+  }
+
+  /* Report / Settings grids → single column */
+  #adm-report  > div > div[style*="grid-template-columns"],
+  #adm-settings > div > div[style*="grid-template-columns"] {
+    display: block !important;
+  }
+  #adm-report  > div,
+  #adm-settings > div {
+    max-width: 100% !important;
+  }
+
+  /* Report buttons full-width */
+  #adm-report button { width: 100%; }
+
+  /* Table font/padding */
+  table.adm-table th, table.adm-table td { padding: 8px 10px; font-size: .8rem; }
+  table.adm-table th { font-size: .7rem; }
+
+  /* Buttons smaller */
+  .adm-btn { padding: 7px 12px; font-size: .82rem; }
+  .adm-btn-sm { padding: 4px 8px; font-size: .74rem; }
+
+  /* Login card */
+  .adm-login-card { padding: 32px 20px; }
+
+  /* Target card */
+  .adm-target-card { padding: 16px 16px; }
+  .adm-target-labels { font-size: .72rem; }
+}
+
+/* ── Extra small (≤ 380px) ── */
+@media (max-width: 380px) {
+  .adm-stats { grid-template-columns: 1fr; }
+  .adm-stat-card .adm-stat-val { font-size: 1.25rem; }
+  #adm-topbar h1 { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="adm-login-screen">
+  <div class="adm-login-card">
+    <div class="adm-login-logo">
+      <div class="adm-logo-circle">⚡</div>
+      <h2>TF ENERGY Admin</h2>
+      <p>Area Amministrativa Riservata</p>
+    </div>
+    <div class="adm-login-field">
+      <label>Nome utente</label>
+      <input type="text" id="adm-username" placeholder="es. admin" autocomplete="username"/>
+    </div>
+    <div class="adm-login-field">
+      <label>Password</label>
+      <input type="password" id="adm-password" placeholder="Password" autocomplete="current-password"/>
+    </div>
+    <button class="adm-login-submit" onclick="admLogin()">Accedi →</button>
+    <div class="adm-login-error" id="adm-login-err">Credenziali non valide. Riprova.</div>
+  </div>
+</div>
+
+<!-- Sidebar overlay for mobile -->
+<div id="adm-overlay" onclick="admToggleSidebar(false)"></div>
+
+<!-- ADMIN PANEL -->
+<div id="adm-wrap" style="display:none">
+  <aside id="adm-sidebar">
+    <div class="adm-logo">
+      <span>⚡</span>
+      <div>TF ENERGY<span>Pannello Admin</span></div>
+    </div>
+    <nav>
+      <a href="#" class="active" onclick="admShow('dashboard',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" onclick="admShow('requests',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Richieste
+      </a>
+      <a href="#" onclick="admShow('projects',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Progetti
+      </a>
+      <a href="#" onclick="admShow('sales',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Vendite
+      </a>
+      <a href="#" onclick="admShow('users',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Utenti
+      </a>
+      <a href="#" onclick="admShow('password',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Cambia Password
+      </a>
+      <a href="#" onclick="admShow('report',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Report PDF
+      </a>
+      <a href="#" onclick="admShow('settings',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Impostazioni
+      </a>
+      <a href="index.html" style="margin-top:auto; border-top:1px solid rgba(255,255,255,.1); padding-top:14px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Torna al Sito
+      </a>
+    </nav>
+    <div class="adm-sidebar-footer">
+      <div class="adm-user-badge" id="adm-user-badge">👤 admin</div>
+      <button class="adm-logout-btn" onclick="admLogout()">⇠ Disconnetti</button>
+    </div>
+  </aside>
+
+  <main id="adm-main">
+    <div id="adm-topbar">
+      <button id="adm-hamburger" onclick="admToggleSidebar()" aria-label="Menu">
+        <span></span>
+      </button>
+      <h1 id="adm-section-title">Dashboard</h1>
+      <a href="index.html" class="adm-back-link">← Torna al sito</a>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="adm-dashboard" class="adm-section active">
+      <div class="adm-stats">
+        <div class="adm-stat-card">
+          <div class="adm-stat-label">Richieste</div>
+          <div class="adm-stat-val" id="stat-req">0</div>
+          <div class="adm-stat-sub">questo mese</div>
+        </div>
+        <div class="adm-stat-card">
+          <div class="adm-stat-label">Progetti</div>
+          <div class="adm-stat-val" id="stat-prj">0</div>
+          <div class="adm-stat-sub">attivi</div>
+        </div>
+        <div class="adm-stat-card">
+          <div class="adm-stat-label">Fatturato</div>
+          <div class="adm-stat-val" id="stat-rev">€0</div>
+          <div class="adm-stat-sub">vendite totali</div>
+        </div>
+        <div class="adm-stat-card">
+          <div class="adm-stat-label">Utenti</div>
+          <div class="adm-stat-val" id="stat-usr">3</div>
+          <div class="adm-stat-sub">admin panel</div>
+        </div>
+      </div>
+
+      <!-- Target Progress -->
+      <div class="adm-target-card">
+        <h3>🎯 Obiettivo Annuale — Target 30M €</h3>
+        <div class="adm-progress-bar">
+          <div class="adm-progress-fill" id="adm-progress-fill" style="width:0%">
+            <span id="adm-progress-pct">0%</span>
+          </div>
+        </div>
+        <div class="adm-target-labels">
+          <span>€0</span>
+          <span id="adm-progress-cur">Raggiunto: €0</span>
+          <span>€30M</span>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="adm-charts">
+        <div class="adm-chart-card">
+          <h3>Distribuzione Prodotti</h3>
+          <svg id="adm-pie" viewBox="0 0 200 200" width="200" height="200" style="display:block;margin:auto"></svg>
+        </div>
+        <div class="adm-chart-card">
+          <h3>Vendite Mensili (€)</h3>
+          <svg id="adm-bar" viewBox="0 0 300 180" width="100%" height="180"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requests -->
+    <div id="adm-requests" class="adm-section">
+      <div class="adm-section-header">
+        <h2>Richieste Preventivo</h2>
+        <button class="adm-btn adm-btn-primary" onclick="admOpenModal('reqModal')">+ Nuova Richiesta</button>
+      </div>
+      <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr><th>#</th><th>Nome</th><th>Email</th><th>Prodotto</th><th>Data</th><th>Stato</th><th>Azioni</th></tr></thead>
+        <tbody id="adm-req-tbody"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div id="adm-projects" class="adm-section">
+      <div class="adm-section-header">
+        <h2>Gestione Progetti</h2>
+        <button class="adm-btn adm-btn-primary" onclick="admOpenModal('prjModal')">+ Nuovo Progetto</button>
+      </div>
+      <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr><th>#</th><th>Progetto</th><th>Cliente</th><th>kW</th><th>Valore €</th><th>Acconto €</th><th>Pagamento</th><th>Stato</th><th>Azioni</th></tr></thead>
+        <tbody id="adm-prj-tbody"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Sales -->
+    <div id="adm-sales" class="adm-section">
+      <div class="adm-section-header">
+        <h2>Registro Vendite</h2>
+        <button class="adm-btn adm-btn-primary" onclick="admOpenModal('saleModal')">+ Nuova Vendita</button>
+      </div>
+      <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr><th>#</th><th>Descrizione</th><th>Cliente</th><th>Importo €</th><th>Data</th><th>Categoria</th><th>Azioni</th></tr></thead>
+        <tbody id="adm-sale-tbody"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Users -->
+    <div id="adm-users" class="adm-section">
+      <div class="adm-section-header">
+        <h2>Gestione Utenti</h2>
+        <button class="adm-btn adm-btn-primary" onclick="admOpenModal('userModal')">+ Nuovo Utente</button>
+      </div>
+      <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr><th>#</th><th>Username</th><th>Ruolo</th><th>Creato</th><th>Azioni</th></tr></thead>
+        <tbody id="adm-user-tbody"></tbody>
+      </table>
+      </div>
+    </div>
+    <!-- Change Password -->
+    <div id="adm-password" class="adm-section">
+      <div class="adm-section-header">
+        <h2>🔐 Cambia Password</h2>
+      </div>
+      <div style="max-width:420px;">
+        <div style="background:var(--adm-bg);border:1px solid var(--adm-border);border-radius:10px;padding:18px 20px;margin-bottom:20px;font-size:.85rem;color:var(--adm-muted);">
+          <strong style="color:var(--adm-text);">ℹ️ Informazione sicurezza</strong><br/>
+          La nuova password viene salvata nel browser. Le credenziali predefinite rimangono valide finché non vengono modificate per quell'utente.
+        </div>
+        <div class="adm-form-group">
+          <label>Utente da modificare</label>
+          <select id="chpw-user">
+            <option value="admin">admin</option>
+            <option value="marketing">marketing</option>
+            <option value="developer">developer</option>
+          </select>
+        </div>
+        <div class="adm-form-group">
+          <label>Password attuale</label>
+          <input type="password" id="chpw-current" placeholder="Inserisci la password attuale"/>
+        </div>
+        <div class="adm-form-group">
+          <label>Nuova Password</label>
+          <input type="password" id="chpw-new" placeholder="Minimo 8 caratteri"/>
+        </div>
+        <div class="adm-form-group">
+          <label>Conferma Nuova Password</label>
+          <input type="password" id="chpw-confirm" placeholder="Ripeti la nuova password"/>
+        </div>
+        <div id="chpw-msg" style="display:none;padding:10px 14px;border-radius:8px;font-size:.85rem;margin-bottom:12px;"></div>
+        <button class="adm-btn adm-btn-primary" onclick="admChangePassword()" style="width:100%;padding:12px;">
+          Aggiorna Password
+        </button>
+      </div>
+    </div>
+
+    <!-- Report PDF -->
+    <div id="adm-report" class="adm-section">
+      <div class="adm-section-header">
+        <h2>📄 Report PDF</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px;">
+        <!-- Vendite Report -->
+        <div style="background:var(--adm-card);border:1px solid var(--adm-border);border-radius:12px;padding:24px;">
+          <h3 style="margin:0 0 8px;font-size:1rem;">📊 Report Vendite</h3>
+          <p style="font-size:.85rem;color:var(--adm-muted);margin:0 0 16px;">Esporta il registro vendite in PDF con totali e statistiche.</p>
+          <div class="adm-form-group">
+            <label>Periodo</label>
+            <select id="rpt-period-sales">
+              <option value="monthly">Mensile</option>
+              <option value="yearly">Annuale</option>
+            </select>
+          </div>
+          <div class="adm-form-group" id="rpt-sales-month-wrap">
+            <label>Mese / Anno</label>
+            <input type="month" id="rpt-sales-month" value=""/>
+          </div>
+          <div class="adm-form-group" id="rpt-sales-year-wrap" style="display:none;">
+            <label>Anno</label>
+            <input type="number" id="rpt-sales-year" placeholder="2024" min="2020" max="2035"/>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="adm-btn adm-btn-primary" onclick="admGenReport('sales','download')" style="flex:1;">
+              ⬇️ Scarica PDF
+            </button>
+            <button class="adm-btn" onclick="admGenReport('sales','whatsapp')" style="flex:1;background:#25d366;color:#fff;">
+              📱 Invia WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <!-- Progetti Report -->
+        <div style="background:var(--adm-card);border:1px solid var(--adm-border);border-radius:12px;padding:24px;">
+          <h3 style="margin:0 0 8px;font-size:1rem;">🏗️ Report Progetti</h3>
+          <p style="font-size:.85rem;color:var(--adm-muted);margin:0 0 16px;">Esporta la lista progetti con dettagli clienti e pagamenti.</p>
+          <div class="adm-form-group">
+            <label>Periodo</label>
+            <select id="rpt-period-prj">
+              <option value="monthly">Mensile</option>
+              <option value="yearly">Annuale</option>
+              <option value="all">Tutti</option>
+            </select>
+          </div>
+          <div class="adm-form-group" id="rpt-prj-month-wrap">
+            <label>Mese / Anno</label>
+            <input type="month" id="rpt-prj-month" value=""/>
+          </div>
+          <div class="adm-form-group" id="rpt-prj-year-wrap" style="display:none;">
+            <label>Anno</label>
+            <input type="number" id="rpt-prj-year" placeholder="2024" min="2020" max="2035"/>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="adm-btn adm-btn-primary" onclick="admGenReport('projects','download')" style="flex:1;">
+              ⬇️ Scarica PDF
+            </button>
+            <button class="adm-btn" onclick="admGenReport('projects','whatsapp')" style="flex:1;background:#25d366;color:#fff;">
+              📱 Invia WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <!-- Completo Report -->
+        <div style="background:var(--adm-card);border:1px solid var(--adm-border);border-radius:12px;padding:24px;grid-column:1/-1;">
+          <h3 style="margin:0 0 8px;font-size:1rem;">📋 Report Completo Aziendale</h3>
+          <p style="font-size:.85rem;color:var(--adm-muted);margin:0 0 16px;">Report completo con vendite, progetti, richieste e statistiche generali.</p>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:0 16px;align-items:end;">
+            <div class="adm-form-group" style="min-width:160px;">
+              <label>Tipo</label>
+              <select id="rpt-period-full">
+                <option value="monthly">Mensile</option>
+                <option value="yearly">Annuale</option>
+              </select>
+            </div>
+            <div class="adm-form-group" id="rpt-full-month-wrap">
+              <label>Mese / Anno</label>
+              <input type="month" id="rpt-full-month" value=""/>
+            </div>
+            <div class="adm-form-group" id="rpt-full-year-wrap" style="display:none;grid-column:2">
+              <label>Anno</label>
+              <input type="number" id="rpt-full-year" placeholder="2024" min="2020" max="2035"/>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="adm-btn adm-btn-primary" onclick="admGenReport('full','download')" style="min-width:180px;">
+              ⬇️ Scarica Report Completo
+            </button>
+            <button class="adm-btn" onclick="admGenReport('full','whatsapp')" style="min-width:180px;background:#25d366;color:#fff;">
+              📱 Invia su WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="rpt-status" style="display:none;margin-top:16px;padding:12px 16px;border-radius:8px;font-size:.9rem;"></div>
+    </div>
+
+    <!-- Impostazioni -->
+    <div id="adm-settings" class="adm-section">
+      <div class="adm-section-header">
+        <h2>⚙️ Impostazioni</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px;">
+        <div style="background:var(--adm-card);border:1px solid var(--adm-border);border-radius:12px;padding:24px;grid-column:1/-1;">
+          <h3 style="margin:0 0 16px;font-size:1rem;">📱 Impostazioni WhatsApp</h3>
+          <div class="adm-form-group">
+            <label>Numero WhatsApp Admin (con prefisso internazionale)</label>
+            <input type="tel" id="set-wa-number" placeholder="393331234567" style="font-size:1rem;"/>
+            <small style="color:var(--adm-muted);font-size:.75rem;">Es: 393331234567 (senza + o spazi). I report PDF vengono inviati a questo numero.</small>
+          </div>
+          <div class="adm-form-group">
+            <label>Messaggio WhatsApp predefinito</label>
+            <textarea id="set-wa-msg" placeholder="Report TF ENERGY allegato." rows="2" style="resize:vertical;"></textarea>
+          </div>
+        </div>
+        <div style="background:var(--adm-card);border:1px solid var(--adm-border);border-radius:12px;padding:24px;grid-column:1/-1;">
+          <h3 style="margin:0 0 16px;font-size:1rem;">🏢 Dati Azienda (intestazione PDF)</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+            <div class="adm-form-group"><label>Ragione Sociale</label><input id="set-company-name" placeholder="TF ENERGY S.R.L."/></div>
+            <div class="adm-form-group"><label>P.IVA</label><input id="set-company-vat" placeholder="IT12345678901"/></div>
+            <div class="adm-form-group" style="grid-column:1/-1"><label>Indirizzo</label><input id="set-company-addr" placeholder="Via Esempio 1, 00100 Roma (RM)"/></div>
+            <div class="adm-form-group"><label>Telefono</label><input id="set-company-tel" placeholder="+39 06 1234567"/></div>
+            <div class="adm-form-group"><label>Email</label><input id="set-company-email" placeholder="info@tfenergy.it"/></div>
+            <div class="adm-form-group"><label>Sito Web</label><input id="set-company-web" placeholder="www.tfenergy.it"/></div>
+          </div>
+        </div>
+        <div style="grid-column:1/-1;">
+          <div id="set-msg" style="display:none;padding:10px 14px;border-radius:8px;font-size:.85rem;margin-bottom:12px;"></div>
+          <button class="adm-btn adm-btn-primary" onclick="admSaveSettings()" style="padding:12px 28px;">
+            💾 Salva Impostazioni
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODALS -->
+<div class="adm-modal-bg" id="reqModal">
+  <div class="adm-modal">
+    <h3 id="reqModal-title">Nuova Richiesta</h3>
+    <input type="hidden" id="reqModal-idx" value="-1"/>
+    <div class="adm-form-group"><label>Nome *</label><input id="req-nome" placeholder="Mario Rossi"/></div>
+    <div class="adm-form-group"><label>Email *</label><input id="req-email" type="email" placeholder="mario@example.com"/></div>
+    <div class="adm-form-group"><label>Telefono</label><input id="req-tel" placeholder="+39 333 123 4567"/></div>
+    <div class="adm-form-group"><label>Prodotto</label>
+      <select id="req-prod">
+        <option>Impianto Fotovoltaico</option><option>Pompa di Calore</option>
+        <option>Colonnina di Ricarica</option><option>Palo Solare</option><option>Altro</option>
+      </select>
+    </div>
+    <div class="adm-form-group"><label>Stato</label>
+      <select id="req-stato"><option>Nuovo</option><option>In Lavorazione</option><option>Completato</option><option>Annullato</option></select>
+    </div>
+    <div class="adm-form-group"><label>Note</label><textarea id="req-note" placeholder="Note aggiuntive..."></textarea></div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn" onclick="admCloseModal('reqModal')" style="background:var(--adm-border);color:var(--adm-text)">Annulla</button>
+      <button class="adm-btn adm-btn-primary" onclick="admSaveReq()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<div class="adm-modal-bg" id="prjModal">
+  <div class="adm-modal" style="max-width:640px;max-height:90vh;overflow-y:auto;">
+    <h3 id="prjModal-title">Nuovo Progetto</h3>
+    <input type="hidden" id="prjModal-idx" value="-1"/>
+    <p style="font-size:.8rem;color:var(--adm-muted);margin:0 0 12px;border-bottom:1px solid var(--adm-border);padding-bottom:8px;">📋 Dati Progetto</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+      <div class="adm-form-group" style="grid-column:1/-1"><label>Nome Progetto *</label><input id="prj-nome" placeholder="Impianto FV – Via Roma 10"/></div>
+      <div class="adm-form-group"><label>Cliente *</label><input id="prj-cliente" placeholder="Azienda Srl"/></div>
+      <div class="adm-form-group"><label>Potenza (kW)</label><input id="prj-kw" type="number" placeholder="20"/></div>
+      <div class="adm-form-group"><label>Valore Totale (€)</label><input id="prj-val" type="number" placeholder="25000"/></div>
+      <div class="adm-form-group"><label>Stato</label>
+        <select id="prj-stato"><option>In Corso</option><option>Completato</option><option>Pianificato</option><option>Sospeso</option></select>
+      </div>
+      <div class="adm-form-group"><label>Data Inizio</label><input id="prj-data" type="date"/></div>
+    </div>
+    <p style="font-size:.8rem;color:var(--adm-muted);margin:12px 0 12px;border-bottom:1px solid var(--adm-border);padding-bottom:8px;">📍 Indirizzo Cantiere</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+      <div class="adm-form-group" style="grid-column:1/-1"><label>Via / Indirizzo</label><input id="prj-via" placeholder="Via Roma 10"/></div>
+      <div class="adm-form-group"><label>Città</label><input id="prj-citta" placeholder="Milano"/></div>
+      <div class="adm-form-group"><label>Provincia</label><input id="prj-prov" placeholder="MI"/></div>
+      <div class="adm-form-group"><label>CAP</label><input id="prj-cap" placeholder="20100"/></div>
+    </div>
+    <p style="font-size:.8rem;color:var(--adm-muted);margin:12px 0 12px;border-bottom:1px solid var(--adm-border);padding-bottom:8px;">👤 Contatti Cliente</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+      <div class="adm-form-group"><label>Telefono Cliente</label><input id="prj-tel" placeholder="+39 333 123 4567"/></div>
+      <div class="adm-form-group"><label>Email Cliente</label><input id="prj-email" type="email" placeholder="cliente@example.com"/></div>
+    </div>
+    <p style="font-size:.8rem;color:var(--adm-muted);margin:12px 0 12px;border-bottom:1px solid var(--adm-border);padding-bottom:8px;">💰 Pagamento</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px;">
+      <div class="adm-form-group"><label>Acconto Pagato (€)</label><input id="prj-acconto" type="number" placeholder="5000"/></div>
+      <div class="adm-form-group"><label>Stato Pagamento</label>
+        <select id="prj-pagamento">
+          <option>In Attesa</option>
+          <option>Acconto Ricevuto</option>
+          <option>Saldo Parziale</option>
+          <option>Saldo Totale Ricevuto</option>
+        </select>
+      </div>
+    </div>
+    <div class="adm-form-group"><label>Note</label><textarea id="prj-note" placeholder="Dettagli progetto..."></textarea></div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn" onclick="admCloseModal('prjModal')" style="background:var(--adm-border);color:var(--adm-text)">Annulla</button>
+      <button class="adm-btn adm-btn-primary" onclick="admSavePrj()">Salva Progetto</button>
+    </div>
+  </div>
+</div>
+
+<div class="adm-modal-bg" id="saleModal">
+  <div class="adm-modal">
+    <h3 id="saleModal-title">Nuova Vendita</h3>
+    <input type="hidden" id="saleModal-idx" value="-1"/>
+    <div class="adm-form-group"><label>Descrizione *</label><input id="sale-desc" placeholder="Impianto 10kW – Cliente XYZ"/></div>
+    <div class="adm-form-group"><label>Cliente</label><input id="sale-cliente" placeholder="Mario Rossi"/></div>
+    <div class="adm-form-group"><label>Importo (€) *</label><input id="sale-importo" type="number" placeholder="15000"/></div>
+    <div class="adm-form-group"><label>Categoria</label>
+      <select id="sale-cat"><option>Fotovoltaico</option><option>Pompa di Calore</option><option>Colonnine EV</option><option>Palo Solare</option><option>Manutenzione</option></select>
+    </div>
+    <div class="adm-form-group"><label>Data</label><input id="sale-data" type="date"/></div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn" onclick="admCloseModal('saleModal')" style="background:var(--adm-border);color:var(--adm-text)">Annulla</button>
+      <button class="adm-btn adm-btn-primary" onclick="admSaveSale()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<div class="adm-modal-bg" id="userModal">
+  <div class="adm-modal">
+    <h3 id="userModal-title">Nuovo Utente</h3>
+    <input type="hidden" id="userModal-idx" value="-1"/>
+    <div class="adm-form-group"><label>Username *</label><input id="user-uname" placeholder="marketing"/></div>
+    <div class="adm-form-group"><label>Password *</label><input id="user-pass" type="password" placeholder="Password sicura"/></div>
+    <div class="adm-form-group"><label>Ruolo</label>
+      <select id="user-role"><option>admin</option><option>marketing</option><option>developer</option></select>
+    </div>
+    <div class="adm-modal-actions">
+      <button class="adm-btn" onclick="admCloseModal('userModal')" style="background:var(--adm-border);color:var(--adm-text)">Annulla</button>
+      <button class="adm-btn adm-btn-primary" onclick="admSaveUser()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Storage ───────────────────────────────────────────────────────────────────
+const ADM_KEY = 'tfadm2_';
+function admGet(k) { try { return JSON.parse(localStorage.getItem(ADM_KEY+k)||'null'); } catch(e){ return null; } }
+function admSet(k,v) { try { localStorage.setItem(ADM_KEY+k, JSON.stringify(v)); } catch(e){} }
+
+// ── Fixed credentials (defaults — overridden by custom passwords in localStorage) ──
+const ADM_DEFAULTS = {
+  admin:     { password: 'TFAdmin2024!', role: 'Amministratore' },
+  marketing: { password: 'TFMkt2024!',  role: 'Marketing' },
+  developer: { password: 'TFDev2024!',  role: 'Sviluppatore' }
+};
+
+// Get effective password for a user (custom overrides default)
+function admGetPassword(username) {
+  const custom = admGet('pw_' + username);
+  return custom || ADM_DEFAULTS[username]?.password || null;
+}
+function admGetRole(username) {
+  return ADM_DEFAULTS[username]?.role || 'Utente';
+}
+
+// ── Init data ─────────────────────────────────────────────────────────────────
+function admInitData() {
+  if (!admGet('requests')) admSet('requests', [
+    { id:1, nome:'Marco Bianchi', email:'marco@example.com', tel:'+39 333 111 2222', prod:'Impianto Fotovoltaico', stato:'Nuovo', note:'6kW residenziale', data:'2024-09-01' },
+    { id:2, nome:'Laura Verdi',   email:'laura@example.com', tel:'+39 347 555 6666', prod:'Pompa di Calore',       stato:'In Lavorazione', note:'', data:'2024-09-05' },
+    { id:3, nome:'Giuseppe Neri', email:'giuseppe@example.com', tel:'', prod:'Colonnina di Ricarica', stato:'Completato', note:'Garage privato', data:'2024-09-10' }
+  ]);
+  if (!admGet('projects')) admSet('projects', [
+    { id:1, nome:'Impianto FV 20kW – Padova', cliente:'Rossi Srl', kw:20, val:28000, stato:'In Corso',   data:'2024-07-01', note:'Capannone industriale' },
+    { id:2, nome:'Pompa di Calore – Vicenza',  cliente:'Villa Bianchi', kw:12, val:15000, stato:'Completato', data:'2024-05-15', note:'' },
+    { id:3, nome:'Colonnine EV – Venezia',     cliente:'Parcheggio Centrale', kw:0, val:9500, stato:'Pianificato', data:'2024-10-01', note:'4 punti ricarica' }
+  ]);
+  if (!admGet('sales')) admSet('sales', [
+    { id:1, desc:'Impianto 10kW – Via Roma', cliente:'Fam. Rossi', importo:14500, cat:'Fotovoltaico', data:'2024-08-15' },
+    { id:2, desc:'Pompa di Calore 8kW',      cliente:'Studio Verdi', importo:9800, cat:'Pompa di Calore', data:'2024-08-22' },
+    { id:3, desc:'Colonnina 22kW',            cliente:'Autorimessa Nord', importo:3200, cat:'Colonnine EV', data:'2024-09-03' }
+  ]);
+  if (!admGet('users')) admSet('users', [
+    { id:1, username:'admin',     role:'Amministratore', created:'2024-01-01' },
+    { id:2, username:'marketing', role:'Marketing',      created:'2024-01-01' },
+    { id:3, username:'developer', role:'Sviluppatore',   created:'2024-01-01' }
+  ]);
+}
+
+// ── Login ─────────────────────────────────────────────────────────────────────
+function admLogin() {
+  const u = document.getElementById('adm-username').value.trim().toLowerCase();
+  const p = document.getElementById('adm-password').value;
+  const correctPw = admGetPassword(u);
+  if (!correctPw || p !== correctPw) {
+    document.getElementById('adm-login-err').style.display = 'block';
+    return;
+  }
+  const role = admGetRole(u);
+  sessionStorage.setItem('tf_admin_user', u);
+  sessionStorage.setItem('tf_admin_role', role);
+  document.getElementById('adm-login-screen').style.display = 'none';
+  document.getElementById('adm-wrap').style.display = 'flex';
+  document.getElementById('adm-user-badge').textContent = '👤 ' + u + ' (' + role + ')';
+  // Pre-fill Change Password user selector to logged-in user
+  document.getElementById('chpw-user').value = u;
+  admInitData();
+  admRenderAll();
+  admLoadSettings();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const u = sessionStorage.getItem('tf_admin_user');
+  if (u) {
+    document.getElementById('adm-login-screen').style.display = 'none';
+    document.getElementById('adm-wrap').style.display = 'flex';
+    const role = sessionStorage.getItem('tf_admin_role') || admGetRole(u);
+    document.getElementById('adm-user-badge').textContent = '👤 ' + u + ' (' + role + ')';
+    document.getElementById('chpw-user').value = u;
+    admInitData();
+    admRenderAll();
+  }
+  document.getElementById('adm-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') admLogin();
+  });
+});
+
+function admLogout() {
+  sessionStorage.removeItem('tf_admin_user');
+  sessionStorage.removeItem('tf_admin_role');
+  document.getElementById('adm-wrap').style.display = 'none';
+  document.getElementById('adm-login-screen').style.display = 'flex';
+  document.getElementById('adm-username').value = '';
+  document.getElementById('adm-password').value = '';
+  document.getElementById('adm-login-err').style.display = 'none';
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+const SECTION_TITLES = { dashboard:'Dashboard', requests:'Richieste Preventivo', projects:'Gestione Progetti', sales:'Registro Vendite', users:'Gestione Utenti', password:'Cambia Password', report:'Report PDF', settings:'Impostazioni' };
+function admShow(sec, el) {
+  document.querySelectorAll('.adm-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#adm-sidebar nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('adm-'+sec).classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById('adm-section-title').textContent = SECTION_TITLES[sec] || sec;
+  return false;
+}
+
+// ── Render all ────────────────────────────────────────────────────────────────
+function admRenderAll() {
+  admRenderReqs(); admRenderPrjs(); admRenderSales(); admRenderUsers();
+  admRenderStats(); admRenderCharts();
+}
+
+function admRenderStats() {
+  const reqs  = admGet('requests')  || [];
+  const prjs  = admGet('projects')  || [];
+  const sales = admGet('sales')     || [];
+  const users = admGet('users')     || [];
+  document.getElementById('stat-req').textContent = reqs.length;
+  document.getElementById('stat-prj').textContent = prjs.filter(p => p.stato === 'In Corso').length;
+  const rev = sales.reduce((s,x) => s + Number(x.importo||0), 0);
+  document.getElementById('stat-rev').textContent = '€' + rev.toLocaleString('it-IT');
+  document.getElementById('stat-usr').textContent = users.length;
+  // Progress bar
+  const TARGET = 30000000;
+  const pct = Math.min(100, (rev / TARGET * 100));
+  document.getElementById('adm-progress-fill').style.width = pct.toFixed(1) + '%';
+  document.getElementById('adm-progress-pct').textContent = pct.toFixed(1) + '%';
+  document.getElementById('adm-progress-cur').textContent = 'Raggiunto: €' + rev.toLocaleString('it-IT');
+}
+
+function admRenderCharts() {
+  const sales = admGet('sales') || [];
+  // Pie chart
+  const cats = {};
+  sales.forEach(s => { cats[s.cat] = (cats[s.cat]||0) + Number(s.importo||0); });
+  const colors = ['#2540a0','#8d7fe8','#b4a6f5','#22c55e','#f59e0b','#ef4444'];
+  const total = Object.values(cats).reduce((a,b) => a+b, 0);
+  let pieHtml = '<circle cx="100" cy="100" r="80" fill="#e2e8f0"/>';
+  if (total > 0) {
+    let ang = 0;
+    Object.entries(cats).forEach(([cat,val], i) => {
+      const slice = (val/total) * 2 * Math.PI;
+      const x1 = 100 + 80*Math.cos(ang), y1 = 100 + 80*Math.sin(ang);
+      const x2 = 100 + 80*Math.cos(ang+slice), y2 = 100 + 80*Math.sin(ang+slice);
+      const large = slice > Math.PI ? 1 : 0;
+      pieHtml += `<path d="M100,100 L${x1.toFixed(1)},${y1.toFixed(1)} A80,80 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${colors[i%colors.length]}" stroke="#fff" stroke-width="2"/>`;
+      ang += slice;
+    });
+  } else {
+    pieHtml = '<circle cx="100" cy="100" r="80" fill="#e2e8f0"/><text x="100" y="106" text-anchor="middle" fill="#94a3b8" font-size="12">Nessun dato</text>';
+  }
+  document.getElementById('adm-pie').innerHTML = pieHtml;
+
+  // Bar chart — monthly sales
+  const months = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+  const monthTotals = new Array(12).fill(0);
+  sales.forEach(s => {
+    if (s.data) {
+      const m = new Date(s.data).getMonth();
+      monthTotals[m] += Number(s.importo||0);
+    }
+  });
+  const maxVal = Math.max(...monthTotals, 1);
+  const bw = 18, gap = 7, startX = 24, h = 140;
+  let barHtml = '';
+  months.forEach((m, i) => {
+    const bh = Math.round((monthTotals[i] / maxVal) * h);
+    const x = startX + i * (bw + gap);
+    const y = h + 10 - bh;
+    barHtml += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${i===new Date().getMonth()?'#8d7fe8':'#2540a0'}" rx="3"/>`;
+    barHtml += `<text x="${x + bw/2}" y="168" text-anchor="middle" font-size="8" fill="#94a3b8">${m}</text>`;
+  });
+  document.getElementById('adm-bar').innerHTML = barHtml;
+}
+
+// ── Requests ──────────────────────────────────────────────────────────────────
+function admRenderReqs() {
+  const reqs = admGet('requests') || [];
+  const tb = document.getElementById('adm-req-tbody');
+  const stateClass = { 'Nuovo':'adm-badge-blue', 'In Lavorazione':'adm-badge-yellow', 'Completato':'adm-badge-green', 'Annullato':'adm-badge-red' };
+  tb.innerHTML = reqs.map((r,i) => `<tr>
+    <td>${r.id}</td><td>${r.nome}</td><td>${r.email}</td><td>${r.prod}</td>
+    <td>${r.data||'-'}</td>
+    <td><span class="adm-badge ${stateClass[r.stato]||'adm-badge-blue'}">${r.stato}</span></td>
+    <td>
+      <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="admEditReq(${i})">✏️</button>
+      <button class="adm-btn adm-btn-danger adm-btn-sm" onclick="admDelReq(${i})">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+function admOpenModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+function admCloseModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+function admEditReq(i) {
+  const r = admGet('requests')[i];
+  document.getElementById('reqModal-idx').value = i;
+  document.getElementById('reqModal-title').textContent = 'Modifica Richiesta';
+  document.getElementById('req-nome').value   = r.nome  ||'';
+  document.getElementById('req-email').value  = r.email ||'';
+  document.getElementById('req-tel').value    = r.tel   ||'';
+  document.getElementById('req-prod').value   = r.prod  ||'Impianto Fotovoltaico';
+  document.getElementById('req-stato').value  = r.stato ||'Nuovo';
+  document.getElementById('req-note').value   = r.note  ||'';
+  admOpenModal('reqModal');
+}
+function admSaveReq() {
+  const reqs = admGet('requests') || [];
+  const idx = parseInt(document.getElementById('reqModal-idx').value);
+  const obj = {
+    id: idx>=0 ? reqs[idx].id : (reqs.length ? reqs[reqs.length-1].id+1 : 1),
+    nome:  document.getElementById('req-nome').value.trim(),
+    email: document.getElementById('req-email').value.trim(),
+    tel:   document.getElementById('req-tel').value.trim(),
+    prod:  document.getElementById('req-prod').value,
+    stato: document.getElementById('req-stato').value,
+    note:  document.getElementById('req-note').value.trim(),
+    data:  new Date().toISOString().slice(0,10)
+  };
+  if (!obj.nome || !obj.email) { alert('Nome ed Email obbligatori'); return; }
+  if (idx >= 0) reqs[idx] = obj; else reqs.push(obj);
+  admSet('requests', reqs);
+  admCloseModal('reqModal');
+  admRenderReqs(); admRenderStats();
+  document.getElementById('reqModal-idx').value = -1;
+  document.getElementById('reqModal-title').textContent = 'Nuova Richiesta';
+}
+function admDelReq(i) {
+  if (!confirm('Eliminare questa richiesta?')) return;
+  const reqs = admGet('requests') || [];
+  reqs.splice(i, 1);
+  admSet('requests', reqs);
+  admRenderReqs(); admRenderStats();
+}
+
+// ── Projects ──────────────────────────────────────────────────────────────────
+function admRenderPrjs() {
+  const prjs = admGet('projects') || [];
+  const tb = document.getElementById('adm-prj-tbody');
+  const stateClass = { 'In Corso':'adm-badge-yellow', 'Completato':'adm-badge-green', 'Pianificato':'adm-badge-blue', 'Sospeso':'adm-badge-red' };
+  const payClass = { 'In Attesa':'adm-badge-red', 'Acconto Ricevuto':'adm-badge-yellow', 'Saldo Parziale':'adm-badge-yellow', 'Saldo Totale Ricevuto':'adm-badge-green' };
+  tb.innerHTML = prjs.map((p,i) => `<tr>
+    <td>${p.id}</td><td>${p.nome}</td><td>${p.cliente}</td>
+    <td>${p.kw||0} kW</td><td>€${Number(p.val||0).toLocaleString('it-IT')}</td>
+    <td>€${Number(p.acconto||0).toLocaleString('it-IT')}</td>
+    <td><span class="adm-badge ${payClass[p.pagamento]||'adm-badge-blue'}">${p.pagamento||'In Attesa'}</span></td>
+    <td><span class="adm-badge ${stateClass[p.stato]||'adm-badge-blue'}">${p.stato}</span></td>
+    <td>
+      <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="admEditPrj(${i})">✏️</button>
+      <button class="adm-btn adm-btn-danger adm-btn-sm" onclick="admDelPrj(${i})">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+function admEditPrj(i) {
+  const p = admGet('projects')[i];
+  document.getElementById('prjModal-idx').value = i;
+  document.getElementById('prjModal-title').textContent = 'Modifica Progetto';
+  document.getElementById('prj-nome').value      = p.nome      ||'';
+  document.getElementById('prj-cliente').value   = p.cliente   ||'';
+  document.getElementById('prj-kw').value        = p.kw        ||'';
+  document.getElementById('prj-val').value       = p.val       ||'';
+  document.getElementById('prj-stato').value     = p.stato     ||'In Corso';
+  document.getElementById('prj-data').value      = p.data      ||'';
+  document.getElementById('prj-note').value      = p.note      ||'';
+  document.getElementById('prj-via').value       = p.via       ||'';
+  document.getElementById('prj-citta').value     = p.citta     ||'';
+  document.getElementById('prj-prov').value      = p.prov      ||'';
+  document.getElementById('prj-cap').value       = p.cap       ||'';
+  document.getElementById('prj-tel').value       = p.tel       ||'';
+  document.getElementById('prj-email').value     = p.email     ||'';
+  document.getElementById('prj-acconto').value   = p.acconto   ||'';
+  document.getElementById('prj-pagamento').value = p.pagamento ||'In Attesa';
+  admOpenModal('prjModal');
+}
+function admSavePrj() {
+  const prjs = admGet('projects') || [];
+  const idx = parseInt(document.getElementById('prjModal-idx').value);
+  const obj = {
+    id:        idx>=0 ? prjs[idx].id : (prjs.length ? prjs[prjs.length-1].id+1 : 1),
+    nome:      document.getElementById('prj-nome').value.trim(),
+    cliente:   document.getElementById('prj-cliente').value.trim(),
+    kw:        parseFloat(document.getElementById('prj-kw').value)||0,
+    val:       parseFloat(document.getElementById('prj-val').value)||0,
+    stato:     document.getElementById('prj-stato').value,
+    data:      document.getElementById('prj-data').value,
+    note:      document.getElementById('prj-note').value.trim(),
+    via:       document.getElementById('prj-via').value.trim(),
+    citta:     document.getElementById('prj-citta').value.trim(),
+    prov:      document.getElementById('prj-prov').value.trim(),
+    cap:       document.getElementById('prj-cap').value.trim(),
+    tel:       document.getElementById('prj-tel').value.trim(),
+    email:     document.getElementById('prj-email').value.trim(),
+    acconto:   parseFloat(document.getElementById('prj-acconto').value)||0,
+    pagamento: document.getElementById('prj-pagamento').value
+  };
+  if (!obj.nome) { alert('Nome progetto obbligatorio'); return; }
+  if (idx >= 0) prjs[idx] = obj; else prjs.push(obj);
+  admSet('projects', prjs);
+  admCloseModal('prjModal');
+  admRenderPrjs(); admRenderStats();
+  document.getElementById('prjModal-idx').value = -1;
+  document.getElementById('prjModal-title').textContent = 'Nuovo Progetto';
+}
+function admDelPrj(i) {
+  if (!confirm('Eliminare questo progetto?')) return;
+  const prjs = admGet('projects') || [];
+  prjs.splice(i, 1);
+  admSet('projects', prjs);
+  admRenderPrjs(); admRenderStats();
+}
+
+// ── Sales ─────────────────────────────────────────────────────────────────────
+function admRenderSales() {
+  const sales = admGet('sales') || [];
+  const tb = document.getElementById('adm-sale-tbody');
+  tb.innerHTML = sales.map((s,i) => `<tr>
+    <td>${s.id}</td><td>${s.desc}</td><td>${s.cliente||'-'}</td>
+    <td>€${Number(s.importo||0).toLocaleString('it-IT')}</td>
+    <td>${s.data||'-'}</td>
+    <td><span class="adm-badge adm-badge-blue">${s.cat}</span></td>
+    <td>
+      <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="admEditSale(${i})">✏️</button>
+      <button class="adm-btn adm-btn-danger adm-btn-sm" onclick="admDelSale(${i})">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+function admEditSale(i) {
+  const s = admGet('sales')[i];
+  document.getElementById('saleModal-idx').value = i;
+  document.getElementById('saleModal-title').textContent = 'Modifica Vendita';
+  document.getElementById('sale-desc').value    = s.desc    ||'';
+  document.getElementById('sale-cliente').value = s.cliente ||'';
+  document.getElementById('sale-importo').value = s.importo ||'';
+  document.getElementById('sale-cat').value     = s.cat     ||'Fotovoltaico';
+  document.getElementById('sale-data').value    = s.data    ||'';
+  admOpenModal('saleModal');
+}
+function admSaveSale() {
+  const sales = admGet('sales') || [];
+  const idx = parseInt(document.getElementById('saleModal-idx').value);
+  const obj = {
+    id: idx>=0 ? sales[idx].id : (sales.length ? sales[sales.length-1].id+1 : 1),
+    desc:    document.getElementById('sale-desc').value.trim(),
+    cliente: document.getElementById('sale-cliente').value.trim(),
+    importo: parseFloat(document.getElementById('sale-importo').value)||0,
+    cat:     document.getElementById('sale-cat').value,
+    data:    document.getElementById('sale-data').value
+  };
+  if (!obj.desc || !obj.importo) { alert('Descrizione e Importo obbligatori'); return; }
+  if (idx >= 0) sales[idx] = obj; else sales.push(obj);
+  admSet('sales', sales);
+  admCloseModal('saleModal');
+  admRenderSales(); admRenderStats(); admRenderCharts();
+  document.getElementById('saleModal-idx').value = -1;
+  document.getElementById('saleModal-title').textContent = 'Nuova Vendita';
+}
+function admDelSale(i) {
+  if (!confirm('Eliminare questa vendita?')) return;
+  const sales = admGet('sales') || [];
+  sales.splice(i, 1);
+  admSet('sales', sales);
+  admRenderSales(); admRenderStats(); admRenderCharts();
+}
+
+// ── Users ─────────────────────────────────────────────────────────────────────
+function admRenderUsers() {
+  const users = admGet('users') || [];
+  const tb = document.getElementById('adm-user-tbody');
+  tb.innerHTML = users.map((u,i) => `<tr>
+    <td>${u.id}</td><td><strong>${u.username}</strong></td>
+    <td><span class="adm-badge adm-badge-blue">${u.role}</span></td>
+    <td>${u.created||'-'}</td>
+    <td>
+      <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="admEditUser(${i})">✏️</button>
+      ${u.id > 3 ? `<button class="adm-btn adm-btn-danger adm-btn-sm" onclick="admDelUser(${i})">🗑</button>` : ''}
+    </td>
+  </tr>`).join('');
+}
+function admEditUser(i) {
+  const u = admGet('users')[i];
+  document.getElementById('userModal-idx').value = i;
+  document.getElementById('userModal-title').textContent = 'Modifica Utente';
+  document.getElementById('user-uname').value = u.username||'';
+  document.getElementById('user-pass').value  = '';
+  document.getElementById('user-role').value  = u.role||'admin';
+  admOpenModal('userModal');
+}
+function admSaveUser() {
+  const users = admGet('users') || [];
+  const idx = parseInt(document.getElementById('userModal-idx').value);
+  const uname = document.getElementById('user-uname').value.trim();
+  const pass  = document.getElementById('user-pass').value;
+  const role  = document.getElementById('user-role').value;
+  if (!uname) { alert('Username obbligatorio'); return; }
+  const obj = {
+    id: idx>=0 ? users[idx].id : (users.length ? users[users.length-1].id+1 : 1),
+    username: uname, role, created: new Date().toISOString().slice(0,10)
+  };
+  if (pass) obj.password = pass;
+  if (idx >= 0) users[idx] = obj; else users.push(obj);
+  admSet('users', users);
+  admCloseModal('userModal');
+  admRenderUsers();
+  document.getElementById('userModal-idx').value = -1;
+  document.getElementById('userModal-title').textContent = 'Nuovo Utente';
+}
+function admDelUser(i) {
+  if (!confirm('Eliminare questo utente?')) return;
+  const users = admGet('users') || [];
+  if (users[i].id <= 3) { alert('Non è possibile eliminare gli utenti di sistema'); return; }
+  users.splice(i, 1);
+  admSet('users', users);
+  admRenderUsers();
+}
+
+// ── Change Password ───────────────────────────────────────────────────────────
+function admChangePassword() {
+  const msg   = document.getElementById('chpw-msg');
+  const uname = document.getElementById('chpw-user').value;
+  const cur   = document.getElementById('chpw-current').value;
+  const nw    = document.getElementById('chpw-new').value;
+  const conf  = document.getElementById('chpw-confirm').value;
+
+  function showMsg(text, ok) {
+    msg.textContent = text;
+    msg.style.display = 'block';
+    msg.style.background = ok ? '#dcfce7' : '#fee2e2';
+    msg.style.color       = ok ? '#166534' : '#991b1b';
+    msg.style.border      = ok ? '1px solid #86efac' : '1px solid #fca5a5';
+  }
+
+  const correctPw = admGetPassword(uname);
+  if (cur !== correctPw) { showMsg('❌ Password attuale non corretta.', false); return; }
+  if (nw.length < 8)     { showMsg('❌ La nuova password deve essere di almeno 8 caratteri.', false); return; }
+  if (nw !== conf)       { showMsg('❌ Le due password non coincidono.', false); return; }
+  if (nw === cur)        { showMsg('⚠️ La nuova password è uguale a quella attuale.', false); return; }
+
+  // Save custom password
+  admSet('pw_' + uname, nw);
+
+  // Clear fields
+  document.getElementById('chpw-current').value = '';
+  document.getElementById('chpw-new').value     = '';
+  document.getElementById('chpw-confirm').value = '';
+  showMsg('✅ Password aggiornata con successo per "' + uname + '"!', true);
+}
+
+
+// ── Settings ──────────────────────────────────────────────────────────────────
+function admLoadSettings() {
+  const s = admGet('settings') || {};
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val||''; };
+  set('set-wa-number',    s.waNumber    || '');
+  set('set-wa-msg',       s.waMsg       || 'Salve, in allegato il report TF ENERGY. Cordiali saluti.');
+  set('set-company-name', s.companyName || 'TF ENERGY S.R.L.');
+  set('set-company-vat',  s.companyVat  || '');
+  set('set-company-addr', s.companyAddr || '');
+  set('set-company-tel',  s.companyTel  || '');
+  set('set-company-email',s.companyEmail|| '');
+  set('set-company-web',  s.companyWeb  || 'www.tfenergy.it');
+}
+
+function admSaveSettings() {
+  const get = id => document.getElementById(id)?.value.trim() || '';
+  const s = {
+    waNumber:     get('set-wa-number'),
+    waMsg:        get('set-wa-msg'),
+    companyName:  get('set-company-name'),
+    companyVat:   get('set-company-vat'),
+    companyAddr:  get('set-company-addr'),
+    companyTel:   get('set-company-tel'),
+    companyEmail: get('set-company-email'),
+    companyWeb:   get('set-company-web')
+  };
+  admSet('settings', s);
+  const msg = document.getElementById('set-msg');
+  msg.textContent = '✅ Impostazioni salvate con successo!';
+  msg.style.cssText = 'display:block;background:#dcfce7;color:#166534;border:1px solid #86efac;padding:10px 14px;border-radius:8px;font-size:.85rem;margin-bottom:12px;';
+  setTimeout(() => { msg.style.display='none'; }, 3000);
+}
+
+// ── PDF Report Generation ────────────────────────────────────────────────────
+function admGetPeriodFilter(type) {
+  const period = document.getElementById('rpt-period-' + type)?.value || 'monthly';
+  if (period === 'all') return { period:'all', label:'Tutti i Record' };
+  if (period === 'yearly') {
+    const yr = parseInt(document.getElementById('rpt-' + type + '-year')?.value) || new Date().getFullYear();
+    return { period:'yearly', year: yr, label: 'Anno ' + yr };
+  }
+  // monthly
+  const mv = document.getElementById('rpt-' + type + '-month')?.value || new Date().toISOString().slice(0,7);
+  const [yr, mo] = mv.split('-').map(Number);
+  const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  return { period:'monthly', year:yr, month:mo, label: (months[mo-1]||'') + ' ' + yr };
+}
+
+function admFilterByPeriod(items, filter, dateField) {
+  if (filter.period === 'all') return items;
+  return items.filter(item => {
+    if (!item[dateField]) return false;
+    const d = new Date(item[dateField]);
+    if (filter.period === 'yearly') return d.getFullYear() === filter.year;
+    return d.getFullYear() === filter.year && (d.getMonth()+1) === filter.month;
+  });
+}
+
+function admBuildPDF(reportType, filter) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const s = admGet('settings') || {};
+  const PAGE_W = 210, MARGIN = 14;
+
+  // Header
+  doc.setFillColor(37, 64, 160);
+  doc.rect(0, 0, PAGE_W, 32, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text(s.companyName || 'TF ENERGY S.R.L.', MARGIN, 14);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  if (s.companyAddr) doc.text(s.companyAddr, MARGIN, 21);
+  const rightInfo = [];
+  if (s.companyTel)   rightInfo.push('Tel: ' + s.companyTel);
+  if (s.companyEmail) rightInfo.push(s.companyEmail);
+  if (s.companyWeb)   rightInfo.push(s.companyWeb);
+  rightInfo.forEach((t, i) => doc.text(t, PAGE_W - MARGIN, 14 + i*6, { align:'right' }));
+
+  doc.setTextColor(0,0,0);
+
+  // Report Title
+  const reportNames = { sales:'Report Vendite', projects:'Report Progetti', full:'Report Completo Aziendale' };
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text(reportNames[reportType] || 'Report', MARGIN, 44);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100,116,139);
+  doc.text('Periodo: ' + filter.label, MARGIN, 51);
+  doc.text('Generato il: ' + new Date().toLocaleDateString('it-IT', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}), PAGE_W - MARGIN, 51, {align:'right'});
+  doc.setTextColor(0,0,0);
+
+  let yPos = 58;
+
+  // Helper: section title
+  function sectionTitle(title, y) {
+    doc.setFillColor(237,241,255);
+    doc.rect(MARGIN, y, PAGE_W - MARGIN*2, 7, 'F');
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(37,64,160);
+    doc.text(title, MARGIN+3, y+5);
+    doc.setTextColor(0,0,0);
+    return y + 10;
+  }
+
+  // Helper: summary box
+  function summaryBox(items, y) {
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    items.forEach((item, i) => {
+      const col = i % 3;
+      const row = Math.floor(i / 3);
+      const x = MARGIN + col * ((PAGE_W - MARGIN*2)/3);
+      const boxY = y + row * 18;
+      doc.setFillColor(248,250,252);
+      doc.roundedRect(x, boxY, (PAGE_W - MARGIN*2)/3 - 2, 15, 2, 2, 'F');
+      doc.setFontSize(7);
+      doc.setTextColor(100,116,139);
+      doc.text(item.label, x+3, boxY+5);
+      doc.setFontSize(10);
+      doc.setFont('helvetica','bold');
+      doc.setTextColor(37,64,160);
+      doc.text(item.value, x+3, boxY+12);
+      doc.setFont('helvetica','normal');
+      doc.setTextColor(0,0,0);
+    });
+    const rows = Math.ceil(items.length / 3);
+    return y + rows * 18 + 4;
+  }
+
+  const sales   = admGet('sales')    || [];
+  const projects= admGet('projects') || [];
+  const requests= admGet('requests') || [];
+
+  // SALES section
+  if (reportType === 'sales' || reportType === 'full') {
+    const filtSales = admFilterByPeriod(sales, filter, 'data');
+    yPos = sectionTitle('📊 Registro Vendite', yPos);
+    const totalSales = filtSales.reduce((s,x) => s+Number(x.importo||0),0);
+    const cats = {};
+    filtSales.forEach(s => { cats[s.cat] = (cats[s.cat]||0)+Number(s.importo||0); });
+    const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+    yPos = summaryBox([
+      { label:'N° Vendite',   value: String(filtSales.length) },
+      { label:'Totale Vendite', value:'€'+totalSales.toLocaleString('it-IT') },
+      { label:'Media Vendita', value: filtSales.length ? '€'+(totalSales/filtSales.length).toLocaleString('it-IT',{maximumFractionDigits:0}) : '€0' },
+      { label:'Categoria Top', value: topCat ? topCat[0] : '-' },
+      { label:'Tot. Cat. Top', value: topCat ? '€'+topCat[1].toLocaleString('it-IT') : '€0' }
+    ], yPos);
+    doc.autoTable({
+      startY: yPos,
+      head: [['#','Descrizione','Cliente','Categoria','Data','Importo €']],
+      body: filtSales.map(s=>[s.id,s.desc,s.cliente||'-',s.cat||'-',s.data||'-','€'+Number(s.importo||0).toLocaleString('it-IT')]),
+      theme:'grid',
+      headStyles:{fillColor:[37,64,160],textColor:255,fontSize:8,fontStyle:'bold'},
+      bodyStyles:{fontSize:8},
+      columnStyles:{5:{halign:'right',fontStyle:'bold'}},
+      margin:{left:MARGIN,right:MARGIN},
+      styles:{cellPadding:2.5}
+    });
+    yPos = doc.lastAutoTable.finalY + 8;
+  }
+
+  // PROJECTS section
+  if (reportType === 'projects' || reportType === 'full') {
+    if (yPos > 220 && reportType === 'full') { doc.addPage(); yPos = 20; }
+    const filtPrj = admFilterByPeriod(projects, filter, 'data');
+    yPos = sectionTitle('🏗️ Gestione Progetti', yPos);
+    const totalVal    = filtPrj.reduce((s,p)=>s+Number(p.val||0),0);
+    const totalAcconto= filtPrj.reduce((s,p)=>s+Number(p.acconto||0),0);
+    const inCorso     = filtPrj.filter(p=>p.stato==='In Corso').length;
+    const completati  = filtPrj.filter(p=>p.stato==='Completato').length;
+    yPos = summaryBox([
+      { label:'Totale Progetti', value:String(filtPrj.length) },
+      { label:'In Corso',       value:String(inCorso) },
+      { label:'Completati',     value:String(completati) },
+      { label:'Valore Totale',  value:'€'+totalVal.toLocaleString('it-IT') },
+      { label:'Acconti Ricevuti',value:'€'+totalAcconto.toLocaleString('it-IT') },
+      { label:'Saldo Residuo',  value:'€'+(totalVal-totalAcconto).toLocaleString('it-IT') }
+    ], yPos);
+    doc.autoTable({
+      startY: yPos,
+      head: [['#','Progetto','Cliente','Indirizzo','Tel Cliente','kW','Valore €','Acconto €','Pagamento','Stato']],
+      body: filtPrj.map(p=>[
+        p.id, p.nome, p.cliente||'-',
+        [p.via,p.citta,p.prov].filter(Boolean).join(', ')||'-',
+        p.tel||'-',
+        (p.kw||0)+' kW',
+        '€'+Number(p.val||0).toLocaleString('it-IT'),
+        '€'+Number(p.acconto||0).toLocaleString('it-IT'),
+        p.pagamento||'In Attesa',
+        p.stato
+      ]),
+      theme:'grid',
+      headStyles:{fillColor:[37,64,160],textColor:255,fontSize:7,fontStyle:'bold'},
+      bodyStyles:{fontSize:7},
+      columnStyles:{6:{halign:'right'},7:{halign:'right'}},
+      margin:{left:MARGIN,right:MARGIN},
+      styles:{cellPadding:2}
+    });
+    yPos = doc.lastAutoTable.finalY + 8;
+  }
+
+  // FULL: also requests
+  if (reportType === 'full') {
+    if (yPos > 220) { doc.addPage(); yPos = 20; }
+    const filtReq = admFilterByPeriod(requests, filter, 'data');
+    yPos = sectionTitle('📋 Richieste Preventivo', yPos);
+    const nuove = filtReq.filter(r=>r.stato==='Nuovo').length;
+    const compl = filtReq.filter(r=>r.stato==='Completato').length;
+    yPos = summaryBox([
+      { label:'Totale Richieste', value:String(filtReq.length) },
+      { label:'Nuove',            value:String(nuove) },
+      { label:'Completate',       value:String(compl) }
+    ], yPos);
+    doc.autoTable({
+      startY: yPos,
+      head: [['#','Nome','Email','Telefono','Prodotto','Data','Stato']],
+      body: filtReq.map(r=>[r.id,r.nome,r.email,r.tel||'-',r.prod,r.data||'-',r.stato]),
+      theme:'grid',
+      headStyles:{fillColor:[37,64,160],textColor:255,fontSize:8,fontStyle:'bold'},
+      bodyStyles:{fontSize:8},
+      margin:{left:MARGIN,right:MARGIN},
+      styles:{cellPadding:2.5}
+    });
+    yPos = doc.lastAutoTable.finalY + 8;
+  }
+
+  // Footer on all pages
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i=1; i<=pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(7);
+    doc.setTextColor(150,150,150);
+    doc.text('TF ENERGY S.R.L. — Documento riservato ad uso interno', MARGIN, 293);
+    doc.text('Pag. '+i+' / '+pageCount, PAGE_W-MARGIN, 293, {align:'right'});
+  }
+
+  return doc;
+}
+
+async function admGenReport(reportType, action) {
+  const statusEl = document.getElementById('rpt-status');
+  // Map type to period-selector id
+  const typeMap = { sales:'sales', projects:'prj', full:'full' };
+  const periodKey = typeMap[reportType] || reportType;
+  const filter = admGetPeriodFilter(periodKey);
+
+  // Check jsPDF loaded
+  if (!window.jspdf) {
+    statusEl.innerHTML = '⏳ Caricamento libreria PDF in corso, riprova tra un secondo...';
+    statusEl.style.cssText = 'display:block;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;padding:12px 16px;border-radius:8px;';
+    return;
+  }
+
+  statusEl.innerHTML = '⏳ Generazione PDF in corso...';
+  statusEl.style.cssText = 'display:block;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:12px 16px;border-radius:8px;';
+
+  try {
+    const doc = admBuildPDF(reportType, filter);
+    const typeNames = { sales:'Vendite', projects:'Progetti', full:'Completo' };
+    const filename = 'TF-ENERGY-Report-' + typeNames[reportType] + '-' + filter.label.replace(/\s+/g,'-') + '.pdf';
+
+    if (action === 'download') {
+      doc.save(filename);
+      statusEl.innerHTML = '✅ PDF scaricato: <strong>' + filename + '</strong>';
+      statusEl.style.cssText = 'display:block;background:#dcfce7;color:#166534;border:1px solid #86efac;padding:12px 16px;border-radius:8px;';
+    } else {
+      // WhatsApp sharing
+      await admShareWhatsApp(doc, filename, reportType, filter);
+    }
+  } catch(err) {
+    statusEl.innerHTML = '❌ Errore generazione PDF: ' + err.message;
+    statusEl.style.cssText = 'display:block;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:12px 16px;border-radius:8px;';
+  }
+}
+
+async function admShareWhatsApp(doc, filename, reportType, filter) {
+  const statusEl = document.getElementById('rpt-status');
+  const s = admGet('settings') || {};
+  const waNum = (s.waNumber || '').replace(/\D/g,'');
+  const typeNames = { sales:'Vendite', projects:'Progetti', full:'Completo Aziendale' };
+  const waMsg = encodeURIComponent(
+    (s.waMsg || 'Salve, in allegato il report TF ENERGY.') + '\n\n' +
+    '📄 Report ' + (typeNames[reportType]||reportType) + ' — ' + filter.label + '\n' +
+    '📅 ' + new Date().toLocaleDateString('it-IT')
+  );
+
+  // Try Web Share API first (mobile)
+  if (navigator.share && navigator.canShare) {
+    try {
+      const pdfBlob = doc.output('blob');
+      const file = new File([pdfBlob], filename, { type:'application/pdf' });
+      if (navigator.canShare({ files:[file] })) {
+        await navigator.share({ title: filename, files:[file] });
+        statusEl.innerHTML = '✅ PDF condiviso tramite Web Share!';
+        statusEl.style.cssText = 'display:block;background:#dcfce7;color:#166534;border:1px solid #86efac;padding:12px 16px;border-radius:8px;';
+        return;
+      }
+    } catch(e) {
+      if (e.name !== 'AbortError') {
+        // fall through to other methods
+      } else {
+        statusEl.innerHTML = '⚠️ Condivisione annullata.';
+        statusEl.style.cssText = 'display:block;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;padding:12px 16px;border-radius:8px;';
+        return;
+      }
+    }
+  }
+
+  // Fallback: download PDF + open WhatsApp
+  doc.save(filename);
+  if (waNum) {
+    const waUrl = 'https://wa.me/' + waNum + '?text=' + waMsg;
+    window.open(waUrl, '_blank');
+    statusEl.innerHTML = '✅ PDF scaricato. WhatsApp aperto — allega il file <strong>' + filename + '</strong> manualmente nel messaggio.';
+  } else {
+    statusEl.innerHTML = '✅ PDF scaricato: <strong>' + filename + '</strong>. <br>⚠️ Imposta il numero WhatsApp nelle <a href="#" onclick="admShow(\'settings\',null)" style="color:var(--adm-blue)">Impostazioni</a> per aprire WhatsApp automaticamente.';
+  }
+  statusEl.style.cssText = 'display:block;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:12px 16px;border-radius:8px;';
+}
+
+// Period selectors toggle for report
+function admSetupReportToggles() {
+  const configs = [
+    { sel:'rpt-period-sales',  mw:'rpt-sales-month-wrap',  yw:'rpt-sales-year-wrap',  my:'rpt-sales-month',  yy:'rpt-sales-year' },
+    { sel:'rpt-period-prj',    mw:'rpt-prj-month-wrap',    yw:'rpt-prj-year-wrap',    my:'rpt-prj-month',    yy:'rpt-prj-year' },
+    { sel:'rpt-period-full',   mw:'rpt-full-month-wrap',   yw:'rpt-full-year-wrap',   my:'rpt-full-month',   yy:'rpt-full-year' }
+  ];
+  // Set current month as default
+  const curMonth = new Date().toISOString().slice(0,7);
+  const curYear  = new Date().getFullYear();
+  configs.forEach(cfg => {
+    const selEl = document.getElementById(cfg.sel);
+    const mEl   = document.getElementById(cfg.my);
+    const yEl   = document.getElementById(cfg.yy);
+    if (mEl) mEl.value = curMonth;
+    if (yEl) yEl.value = curYear;
+    if (!selEl) return;
+    selEl.addEventListener('change', () => {
+      const v = selEl.value;
+      const mw = document.getElementById(cfg.mw);
+      const yw = document.getElementById(cfg.yw);
+      if (mw) mw.style.display = v==='monthly' ? '' : 'none';
+      if (yw) yw.style.display = v==='yearly'  ? '' : 'none';
+    });
+  });
+}
+
+
+// ── Mobile sidebar toggle ─────────────────────────────────────────────────────
+function admToggleSidebar(forceState) {
+  const isOpen = document.body.classList.contains('adm-sidebar-open');
+  const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+  document.body.classList.toggle('adm-sidebar-open', shouldOpen);
+  // Prevent body scroll when sidebar open on mobile
+  document.body.style.overflow = shouldOpen && window.innerWidth <= 700 ? 'hidden' : '';
+}
+
+// Close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('#adm-sidebar nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 700) admToggleSidebar(false);
+  });
+});
+
+// Close sidebar on resize to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 700) {
+    admToggleSidebar(false);
+    document.body.style.overflow = '';
+  }
+});
+
+// Swipe-to-close sidebar on mobile
+(function() {
+  let startX = 0, startY = 0;
+  document.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (!document.body.classList.contains('adm-sidebar-open')) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = Math.abs(e.changedTouches[0].clientY - startY);
+    // Swipe left ≥ 60px and more horizontal than vertical
+    if (dx < -60 && dy < 60) admToggleSidebar(false);
+  }, { passive: true });
+})();
+
+// Close modals on background click
+document.querySelectorAll('.adm-modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); });
+});
+</script>
+</body>
+</html>
